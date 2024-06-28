@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-//requirement for importing InputField component, usually kept in src/components
+//requirement for importing components (green text), usually kept in src/components
 import InputField from './components/InputField';
 import BingoCardComponent from './components/BingoCard';
 

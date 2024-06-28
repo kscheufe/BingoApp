@@ -4,7 +4,7 @@
 //this is a file describing a BingoCard component
 import React, {useState} from 'react';
 import BingoCard from '../objects/BingoCard';
-import './BingoCardComponent.css'; // For styling the card
+import './BingoCard.css'; // For styling the card
 
 const BingoCardComponent = () => {
     const [bingoCard] = useState(new BingoCard());
@@ -20,7 +20,7 @@ const BingoCardComponent = () => {
             {bingoCard.getCardNumbers().map((row, rowIndex) =>
             row.map((num, colIndex) => (
                 <div key={`${rowIndex}-${colIndex}`}
-                     className={`card-cell ${bingoCard.getCardMarks()[rowIndex][colIndex] ? 'marked' : ''}`}
+                     className={`card-cell ${bingoCard.getCardBools()[rowIndex][colIndex] ? 'marked' : ''}`}
                 >
                     {num}
                 </div>

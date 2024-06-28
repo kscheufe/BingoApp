@@ -7,7 +7,7 @@ class BingoCard {
     constructor() {
         this.numbers = this.generateCardNumbers();//change to either manual input or recognition model
         //boolean array
-        this.bools = Array(5).full(null).map(() => Array(5).fill(false));
+        this.bools = Array(5).fill(null).map(() => Array(5).fill(false));
         this.bools[2][2] = true;//for the free space
     }
 
@@ -18,7 +18,7 @@ class BingoCard {
         if (isValidCard(inputArray))
         {
             this.numbers = inputArray;
-            this.bools = Array(5).full(null).map(() => Array(5).fill(false));
+            this.bools = Array(5).fill(null).map(() => Array(5).fill(false));
             this.bools[2][2] = true;//for the free space
         }
         function isValidCard(input) {

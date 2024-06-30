@@ -14,11 +14,16 @@ function InputField() {
         setInputValue(event.target.value);
     }
 
+    const getInputValue = () => {
+        return inputValue;
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
         //for each card
         //card.handleNumberCalled(inputValue)
         alert(`Input Value: ${inputValue}`);//change me when bingo cards are added to the app, send to a "DB" of all numbers
+        
     }
     /////
 

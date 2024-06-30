@@ -1,17 +1,29 @@
 /**
-update me, this is default wachy==ky
+
 */
+.bingo-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bingo-header {
+  display: grid;
+  grid-template-columns: repeat(5, 50px);
+  text-align: center;
+  column-gap: 0;
+  margin-bottom: 5px;
+  padding-top: 10px;
+}
+
 .bingo-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
-  }
-  
-  .card-grid {
     display: grid;
     grid-template-columns: repeat(5, 50px);
-    grid-gap: 5px;
+    column-gap: 0;
+  }
+  
+  .card-column {
+    padding: 0px;
   }
   
   .card-cell {

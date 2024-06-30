@@ -16,15 +16,30 @@ const BingoCardComponent = () => {
     };
 
     return (
-        <div className='bingo-card'>
-            {bingoCard.getCardNumbers().map((row, rowIndex) =>
-            row.map((num, colIndex) => (
-                <div key={`${rowIndex}-${colIndex}`}
-                     className={`card-cell ${bingoCard.getCardBools()[rowIndex][colIndex] ? 'marked' : ''}`}
-                >
-                    {num}
-                </div>
-            )))};
+        <div className="bingoCardContainer">
+            <div className='bingo-header'>
+                {['B', 'I', 'N', 'G', 'O'].map((letter, index) => (
+                    <div key={`header-${index}`} className='header-cell'>
+                        {letter}    
+                    </div>
+                ))}
+            </div>
+            <div className='bingo-card'>
+                {bingoCard.getCardNumbers().map((row, rowIndex) => (
+                    <div key={`row-${rowIndex}`} className="card-column">
+                        {
+                            row.map((num, colIndex) => (
+                                <div 
+                                    key={`${rowIndex}-${colIndex}`}
+                                    className={`card-cell ${bingoCard.getCardBools()[rowIndex][colIndex] ? 'marked' : ''}`}
+                                >
+                                    {num}
+                                </div>
+                            ))
+                        }
+                    </div>
+                ))}
+            </div>
         </div>
     )
 }

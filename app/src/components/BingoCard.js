@@ -2,18 +2,24 @@
  *  - HandleNumberCall needs to be called by the input field component for entering called numbers
 */
 //this is a file describing a BingoCard component
-import React, {useState} from 'react';
+import React, {forwardRef, useState, useImperativeHandle} from 'react';
 import BingoCard from '../objects/BingoCard';
 import './BingoCard.css'; // For styling the card
 
-const BingoCardComponent = () => {
-    const [bingoCard] = useState(new BingoCard());
+const BingoCardComponent = forwardRef((props, ref) => {
+    const [bingoCard, setBingoCard] = useState(new BingoCard());
 
     const handleNumberCall = (calledNumber) => {
         const num = parseInt(calledNumber);
         if (isNaN(num)) return;//shouldn't be able to get here due to input restriction
         bingoCard.markNumber(num);//method in bingoCard object, needs to be called from main app, not each bingo card component
+        setBingoCard(bingoCard);
     };
+
+    // Expose handleNumberCall via ref
+    useImperativeHandle(ref, () => ({
+        handleNumberCall: handleNumberCall
+    }));
 
     return (
         <div className="bingoCardContainer">
@@ -42,6 +48,6 @@ const BingoCardComponent = () => {
             </div>
         </div>
     )
-}
+});
 
 export default BingoCardComponent;

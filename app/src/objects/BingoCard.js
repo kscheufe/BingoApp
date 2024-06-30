@@ -50,16 +50,18 @@ class BingoCard {
     //basically a set function for the boolean array
     markNumber(calledNumber) {
         let found = false;//because the number can only exist once (though the randomized cards allow duplicates)
-        for (let i = 0; i < 5 && found == false; i++) 
+        for (let i = 0; i < 5; i++) 
         {
-            for (let j = 0; j < 5 && found == false; j++) 
+            for (let j = 0; j < 5; j++) 
             {
                 if (this.numbers[i][j] === calledNumber) 
                 {
-                    this.marks[i][j] = true;//set the bool to true if it's the called number
+                    this.bools[i][j] = true;//set the bool to true if it's the called number
                     found = true;
+                    break;
                 }
             }
+            if (found) {break};
         }
     }
 

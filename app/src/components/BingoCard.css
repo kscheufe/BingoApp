@@ -34,6 +34,7 @@
     align-items: center;
     border: 1px solid #000;
     background-color: #fff;
+    color: #000;
   }
   
   .card-cell.marked {

@@ -24,6 +24,7 @@
   
   .card-column {
     padding: 0px;
+    display: contents;
   }
   
   .card-cell {
@@ -35,6 +36,7 @@
     border: 1px solid #000;
     background-color: #fff;
     color: #000;
+    aspect-ratio: 1;
   }
   
   .card-cell.marked {
@@ -59,4 +61,14 @@
     font-size: 1em;
     cursor: pointer;
   }
+
+  .cell-button {
+    width: 60%;
+    height: 60%;
+    border: none;
+    font-size: 16px; /* Adjust as needed */
+    cursor: pointer;
+  }
+
+
   

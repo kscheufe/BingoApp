@@ -2,6 +2,7 @@
 *   - The constructor setting card numbers to generateCardNumbers will need to be changed to setCardNumbers(input from manual input or AI model)
     - Could incorporate a check win conditions method here, but might be best elsewhere, leave for now
 */
+import './BingoCard.css'; // For styling the card
 
 class BingoCard {
     constructor() {

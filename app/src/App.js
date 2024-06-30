@@ -7,7 +7,6 @@ import BingoCardComponent from './components/BingoCard';
 function App() {//starting point for the app
   const [inputValue, setInputValue] = useState('');
   const bingoCardComponentRef = useRef(null);
-
   const handleInputFieldChange = (event) => {
       setInputValue(event.target.value);
   }
@@ -18,7 +17,8 @@ function App() {//starting point for the app
     if (!inputValue.trim()) return; //prevents empty submissions
     const numberToCall = parseInt(inputValue);//ensures it's an int
 
-    //call the handleNumerCall function in BingoCardComponent.js for this component
+    //call the handleNumerCall function in BingoCardComponent.js for 
+    //this component
     if (!isNaN(numberToCall) && bingoCardComponentRef.current) {
       bingoCardComponentRef.current.handleNumberCall(numberToCall);
     }

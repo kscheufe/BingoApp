@@ -2,7 +2,8 @@ import React, {useState} from "react";
 import BingoCard from "../objects/BingoCard";
 
 const WinCondition = () => {
-    const [bingoCard, setBingoCard] = useState(new BingoCard());
+    const [bingoCard, setBingoCard] = useState(new BingoCard());//inside the useState is the default value for it to take
+    const [winCondition, setWinCondition] = useState(bingoCard.getCardBools());
     
     const toggleButton = (rowIndex, colIndex) => {
         //update bool
@@ -12,6 +13,12 @@ const WinCondition = () => {
         const newBingoCard = new BingoCard();
         newBingoCard.bools = bingoCard.getCardBools();
         setBingoCard(newBingoCard);
+    }
+
+    const winConditionSubmit = () => {
+        //set the win condition to the current bingoCard.bools when submit is pressed
+        setWinCondition(bingoCard.bools);
+        alert(winCondition);
     }
 
     //5x5 array of bool buttons
@@ -43,6 +50,10 @@ const WinCondition = () => {
                         }
                     </div>
                 ))}
+            </div>
+            <div className="submitField">
+                <button onClick={() => winConditionSubmit()}
+                >Confirm Win Condition</button>
             </div>
         </div>
     )

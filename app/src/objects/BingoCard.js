@@ -66,6 +66,10 @@ class BingoCard {
         }
     }
 
+    checkWinCondition() {
+        //for 
+    }
+
     //could have a method for checking win conditions here, but given how many distinct win conditions there are I think it might be best elsewhere
 
     /*returns the cards numbers, in format

@@ -2,7 +2,7 @@ import './App.css';
 import React, {useState, useRef} from 'react';
 //requirement for importing components (green text), usually kept in src/components
 import BingoCardComponent from './components/BingoCard';
-import WinCondition from './components/WinCondition';
+import AddWinCondition from './components/AddWinCondition';
 
 
 function App() {//starting point for the app
@@ -39,7 +39,7 @@ function App() {//starting point for the app
             <button type = "submit">Submit</button>
         </form>
         <BingoCardComponent ref={bingoCardComponentRef}/>
-        <WinCondition />
+        <AddWinCondition />
       </header>
     </div>
   );

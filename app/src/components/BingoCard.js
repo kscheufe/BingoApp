@@ -28,6 +28,7 @@ const BingoCardComponent = forwardRef((props, ref) => {
 
     return (
         <div className="bingoCardContainer">
+            <div>Card Label</div>
             <div className='bingo-header'>
                 {['B', 'I', 'N', 'G', 'O'].map((letter, index) => (
                     <div key={`header-${index}`} className='header-cell'>

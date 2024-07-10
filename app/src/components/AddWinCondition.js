@@ -11,29 +11,31 @@ import './AddWinCondition.css';
 
 const WinCondition = () => {
     const [bingoCard, setBingoCard] = useState(new BingoCard());//inside the useState is the default value for it to take
-    const [winCondition, setWinCondition] = useState(bingoCard.getCardBools());
     const [winConditionsList, setWinConditionsList] = useState([]);//list of confirmed win conditions, empty by default (winning impossible)
     const [showWinConditionsField, setShowWinConditionsField] = useState(false);//false by default until the add button is pressed
 
+    //toggle button in the addWinCondition field
     const toggleButton = (rowIndex, colIndex) => {
-        //update bool
-        bingoCard.bools[rowIndex][colIndex] = !bingoCard.bools[rowIndex][colIndex];
+        //make a new bingo card
+        const updatedBingoCard = new BingoCard();
+        //get the card bools from current bingo card's selections
+        updatedBingoCard.bools = bingoCard.getCardBools().map((row, rIndex) => 
+            row.map((cell, cIndex) => (rIndex === rowIndex && cIndex === colIndex ? !cell : cell))
+        );
 
         //rerender
-        const newBingoCard = new BingoCard();
-        newBingoCard.bools = bingoCard.getCardBools();
-        setBingoCard(newBingoCard);
-    }
+        setBingoCard(updatedBingoCard);
+    };
 
     const winConditionSubmit = () => {
-        //set the win condition to the current bingoCard.bools when submit is pressed
-        setWinCondition(bingoCard.bools);
+        //deep copy of boolean array
+        const newWinCondition = bingoCard.getCardBools().map(row => row.slice());
         //repeat current winConditions list but with bingoCard.bools added
-        setWinConditionsList([...winConditionsList, bingoCard.bools]);
+        setWinConditionsList([...winConditionsList, newWinCondition]);
         //toggle confirmation, cancel, and add button (!add == confirmation)
         toggleAddWinConditionsDisplay();
 
-        alert(winCondition);
+        alert(newWinCondition);
         //updateWinConditions
     }
 

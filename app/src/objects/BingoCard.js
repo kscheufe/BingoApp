@@ -82,6 +82,7 @@ class BingoCard {
     ]
     */
     getCardNumbers() {
+        //alert(this.numbers);
         return this.numbers;
     }
 

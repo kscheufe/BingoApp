@@ -3,7 +3,7 @@
 //this is a file describing a BingoCard component
 import React, {forwardRef, useState, useImperativeHandle} from 'react';
 import BingoCard from '../objects/BingoCard';
-
+import "./BingoCard.css";
 
 //special declaration for forward reference from the app.js parent
 const BingoCardComponent = forwardRef((props, ref) => {
@@ -37,18 +37,19 @@ const BingoCardComponent = forwardRef((props, ref) => {
                 ))}
             </div>
             <div className='bingo-card'>
-                {bingoCard.getCardNumbers().map((row, rowIndex) => (
-                    <div key={`row-${rowIndex}`} className="card-column">
-                        {
-                            row.map((num, colIndex) => (
+                {Array.from({ length: 5 }).map((_, colIndex) => (
+                    <div key={`col-${colIndex}`} className="card-column">
+                        {Array.from({ length: 5 }).map((_, rowIndex) => {
+                            const num = bingoCard.getCardNumbers()[rowIndex][colIndex];
+                            return (
                                 <div 
                                     key={`${rowIndex}-${colIndex}`}
                                     className={`card-cell ${bingoCard.getCardBools()[rowIndex][colIndex] ? 'marked' : ''}`}
                                 >
                                     {num}
                                 </div>
-                            ))
-                        }
+                            );
+                        })}
                     </div>
                 ))}
             </div>

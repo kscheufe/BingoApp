@@ -7,6 +7,7 @@
 */
 import React, {useState} from "react";
 import BingoCard from "../objects/BingoCard";
+import './AddWinCondition.css';
 
 const WinCondition = () => {
     const [bingoCard, setBingoCard] = useState(new BingoCard());//inside the useState is the default value for it to take
@@ -43,17 +44,17 @@ const WinCondition = () => {
     //5x5 array of bool buttons
     return (
         <div className="bingoCardContainer">
-            <div className="winConditions" style={{ display: "block"}}>
+            <div className="winConditionsDisplay" >
                 <h2>Win Conditions:</h2>
                 {winConditionsList.map((condition, index) => (
                 <div key={`win-condition-${index}`} className="win-condition">
                     <div className="bingo-card">
                     {condition.map((row, rowIndex) => (
                         <div key={`win-row-${rowIndex}`} className="card-column">
-                        {row.map((num, colIndex) => (
+                        {row.map((cell, colIndex) => (
                             <div
                             key={`win-${rowIndex}-${colIndex}`}
-                            className={`card-cell ${condition[rowIndex][colIndex] ? "marked" : ""}`}
+                            className={`card-cell ${cell ? "marked" : ""}`}
                             ></div>
                         ))}
                         </div>

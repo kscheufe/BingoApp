@@ -7,7 +7,9 @@ import AddWinCondition from './components/AddWinCondition';
 
 function App() {//starting point for the app
   const [inputValue, setInputValue] = useState('');
+  const [winConditionsList, setWinConditionsList] = useState([]);
   const bingoCardComponentRef = useRef(null);
+
   const handleInputFieldChange = (event) => {
       setInputValue(event.target.value);
   }
@@ -27,6 +29,10 @@ function App() {//starting point for the app
     setInputValue('');
   } 
 
+  const handleWinConditionsUpdate = (newWinConditions) => {
+    setWinConditionsList(newWinConditions);
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -38,8 +44,8 @@ function App() {//starting point for the app
             </label>
             <button type = "submit">Submit</button>
         </form>
-        <BingoCardComponent ref={bingoCardComponentRef}/>
-        <AddWinCondition />
+        <BingoCardComponent ref={bingoCardComponentRef} winConditionsList={winConditionsList} />
+        <AddWinCondition onWinConditionsUpdate={handleWinConditionsUpdate} />
       </header>
     </div>
   );

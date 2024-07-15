@@ -9,7 +9,7 @@ import React, {useState} from "react";
 import BingoCard from "../objects/BingoCard";
 import './AddWinCondition.css';
 
-const WinCondition = () => {
+const WinCondition = ({ onWinConditionsUpdate }) => {
     const [bingoCard, setBingoCard] = useState(new BingoCard());//inside the useState is the default value for it to take
     const [winConditionsList, setWinConditionsList] = useState([]);//list of confirmed win conditions, empty by default (winning impossible)
     const [showWinConditionsField, setShowWinConditionsField] = useState(false);//false by default until the add button is pressed
@@ -30,13 +30,17 @@ const WinCondition = () => {
     const winConditionSubmit = () => {
         //deep copy of boolean array
         const newWinCondition = bingoCard.getCardBools().map(row => row.slice());
-        //repeat current winConditions list but with bingoCard.bools added
-        setWinConditionsList([...winConditionsList, newWinCondition]);
+        //update winConditions List (repeat current winConditions list but with bingoCard.bools added)
+        const updatedWinConditionsList = [...winConditionsList, newWinCondition];
+        //set the win Conditions List
+        setWinConditionsList(updatedWinConditionsList);
+        //send the win conditions list back to the parent (app.js)
+        onWinConditionsUpdate(updatedWinConditionsList);
         //toggle confirmation, cancel, and add button (!add == confirmation)
         toggleAddWinConditionsDisplay();
 
-        alert(newWinCondition);
-        //updateWinConditions
+
+        //alert(newWinCondition);
     }
 
     const toggleAddWinConditionsDisplay = () => {
@@ -48,15 +52,16 @@ const WinCondition = () => {
         <div className="bingoCardContainer">
             <div className="winConditionsDisplay" >
                 <h2>Win Conditions:</h2>
+                <div></div>
                 {winConditionsList.map((condition, index) => (
                 <div key={`win-condition-${index}`} className="win-condition">
                     <div className="bingo-card">
-                    {condition.map((row, rowIndex) => (
-                        <div key={`win-row-${rowIndex}`} className="card-column">
-                        {row.map((cell, colIndex) => (
+                    {Array.from({ length: 5 }).map((_, colIndex) => (
+                        <div key={`win-col-${colIndex}`} className="card-column">
+                        {Array.from({ length: 5 }).map((_, rowIndex) => (
                             <div
                             key={`win-${rowIndex}-${colIndex}`}
-                            className={`card-cell ${cell ? "marked" : ""}`}
+                            className={`card-cell ${condition[rowIndex][colIndex] ? "marked" : ""}`}
                             ></div>
                         ))}
                         </div>
@@ -84,10 +89,9 @@ const WinCondition = () => {
                     ))}
                 </div>
                 <div className='bingo-card'>
-                    {bingoCard.getCardBools().map((row, rowIndex) => (
-                        <div key={`row-${rowIndex}`} className="card-column">
-                            {
-                                row.map((num, colIndex) => (
+                    {Array.from({ length: 5 }).map((_, colIndex) => (
+                        <div key={`col-${colIndex}`} className="card-column">
+                            {Array.from({ length: 5 }).map((_, rowIndex) => (
                                     <div 
                                         key={`${rowIndex}-${colIndex}`}
                                         className={`card-cell ${bingoCard.getCardBools()[rowIndex][colIndex] ? 'marked' : ''}`}

@@ -43,7 +43,7 @@ router.post('/toggle/:id', (req, res) => {
 //delete a win condition
 router.delete('/:id', (req, res) => {
     const id = req.params.id;
-    db.run('DELETE from win_conditions WHERE id = ?', [id], function(err) {
+    db.run('DELETE FROM win_conditions WHERE id = ?', [id], function(err) {
         if (err) {
             return res.status(500).json({ error: err.message });
         }

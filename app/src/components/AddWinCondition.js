@@ -44,6 +44,7 @@ const WinCondition = ({ onWinConditionsUpdate }) => {
         //deep copy of boolean array
         const newWinCondition = bingoCard.getCardBools().map(row => row.slice());
         
+        //*********console.log(JSON.stringify(newWinCondition));
         //post new win condition to the backend
         axios.post('/api/win-conditions', {
             condition: JSON.stringify(newWinCondition), 
@@ -61,7 +62,7 @@ const WinCondition = ({ onWinConditionsUpdate }) => {
             toggleAddWinConditionsDisplay();
         })
         .catch(error => {
-            console.error("Error adding win condition");
+            console.error("Error adding win condition: " + error);
         });
 
         //alert(newWinCondition);

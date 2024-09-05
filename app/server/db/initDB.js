@@ -1,18 +1,22 @@
 const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
+
+//path to bingo.db file
+const dbPath = path.resolve(__dirname, 'bingo.db.sqlite');
 
 //bingo.db file will be created automatically if not already there
-const db = new sqlite3.Database('./server/db/bingo.db', (err) => {
+const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error("Error connecting to db: ", err);
     }
     else 
     {
-        console.log("conected to db");
+        console.log("conected to db - initialization script");
     }
 });
 
 db.serialize(() => {
-    db.run(`CREATE TABLE IF NOT EXISTS win_conditions {
+    db.run(`CREATE TABLE IF NOT EXISTS win_conditions (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         condition TEXT,
         is_active BOOLEAN DEFAULT 0

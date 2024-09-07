@@ -1,14 +1,11 @@
 import './App.css';
-import React, {useState, useRef} from 'react';
-//requirement for importing components (green text), usually kept in src/components
+import React, {useState} from 'react';
 import BingoCardComponent from './components/BingoCard';
 import AddWinCondition from './components/AddWinCondition';
-
+import axios from 'axios';
 
 function App() {//starting point for the app
   const [inputValue, setInputValue] = useState('');
-  const [winConditionsList, setWinConditionsList] = useState([]);
-  const bingoCardComponentRef = useRef(null);
 
   const handleInputFieldChange = (event) => {
       setInputValue(event.target.value);
@@ -20,23 +17,31 @@ function App() {//starting point for the app
     if (!inputValue.trim()) return; //prevents empty submissions
     const numberToCall = parseInt(inputValue);//ensures it's an int
 
-    //call the handleNumerCall function in BingoCardComponent.js for 
-    //this component
-    if (!isNaN(numberToCall) && bingoCardComponentRef.current) {
-      bingoCardComponentRef.current.handleNumberCall(numberToCall);
-    }
+    //FRONTEND
+    axios.post(`/api/numbers-called/${numberToCall}`)
+      .then(response => {
+        console.log('Number called: ', response.data);
+        //update list of called numbers, DOESN'T EXIST YET
+        fetchUpdatedNumbers();
+        //redraw cards
+        fetchUpdatedCards();
+
+      })
+      .catch(error => console.error("error calling number - app.js: ", error));
+    //BACKEND
+    //check win conditions against each card
+
     //reset the input value
     setInputValue('');
   } 
 
-  const handleWinConditionsUpdate = (newWinConditions) => {
-    setWinConditionsList(newWinConditions);
-  }
+  const fetchUpdatedCards = () => {};
+  const fetchUpdatedNumbers = () => {};
+  const fetchUpdatedWinConditions = () => {};
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1> React Input Field Example</h1>
         <form onSubmit={handleInputFieldSubmit}>
             <label>
                 Enter Number:
@@ -44,8 +49,8 @@ function App() {//starting point for the app
             </label>
             <button type = "submit">Submit</button>
         </form>
-        <BingoCardComponent ref={bingoCardComponentRef} winConditionsList={winConditionsList} />
-        <AddWinCondition onWinConditionsUpdate={handleWinConditionsUpdate} />
+        <BingoCardComponent />
+        <AddWinCondition />
       </header>
     </div>
   );

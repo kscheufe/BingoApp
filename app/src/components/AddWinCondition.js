@@ -10,6 +10,9 @@ import BingoCard from "../objects/BingoCard";
 import './AddWinCondition.css';
 import axios from 'axios';
 
+//soon just for displaying win conditions and sending new ones to backend
+//--------------------
+
 const WinCondition = ({ onWinConditionsUpdate }) => {
     const [bingoCard, setBingoCard] = useState(new BingoCard());//inside the useState is the default value for it to take
     const [winConditionsList, setWinConditionsList] = useState([]);//list of confirmed win conditions, empty by default (winning impossible)

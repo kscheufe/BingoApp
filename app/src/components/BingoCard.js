@@ -1,9 +1,9 @@
-/**
-*/
-//this is a file describing a BingoCard component
 import React, {forwardRef, useState, useImperativeHandle} from 'react';
 import BingoCard from '../objects/BingoCard';
 import "./BingoCard.css";
+
+//soon just a file for displaying bingo cards and adding new ones
+//___--------------------------------------------
 
 //special declaration for forward reference from the app.js parent
 const BingoCardComponent = forwardRef((props, ref) => {

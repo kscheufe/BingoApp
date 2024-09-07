@@ -12,8 +12,9 @@ module.exports = function(db) {
         });
     });
 
-    //add new number
+    //add new number - update to game state
     router.post('/:num', (req, res) => {
+        console.log("post received by server");
         const num = req.params.num;
         db.run('INSERT INTO numbers_called (number) VALUES (?)', [num], function(err) {
             if (err) {
@@ -22,11 +23,20 @@ module.exports = function(db) {
                 }
                 return res.status(500).json({ error: err.message});
             }
-            res.json({id: this.lastID});//return id of the num, not the num itself
+            const numberId = this.lastID;//will return id of the num for deletion buttons
+            
+            //these functions are/will be implemented in index.js, where this file is exported to
+            updateCardBooleanArrays(db)
+                .then(() => checkWinConditions(db))//chain the promises
+                .then(winFound => {
+                    //respond to the front-end, returning the id of the new number (for delete), and winFound - which will be the first winning card's id or -1 if no win found
+                    res.json({id: numberId, winFound});
+                })
         });
+        //call a check win conditions method in server?
     });
 
-    //delete a number
+    //delete a number - update to game state, but shouldn't need any other calls since next number added will recheck all cards against the whole list? - maybe
     router.delete('/:id', (req, res) => {
         const id = req.params.id;
         db.run('DELETE FROM numbers_called WHERE id = ?', [id], function(err) {
@@ -40,7 +50,7 @@ module.exports = function(db) {
         });
     });
 
-    //delete all numbers (new game)
+    //delete all numbers (new game) - same as above
     router.delete('/deleteAll', (req, res) => {
         db.run('DELETE from numbers_called', [], function(err) {
             if (err) {

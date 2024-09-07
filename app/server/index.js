@@ -34,6 +34,14 @@ app.use("/api/win-conditions", winConditionsRoutes);
 app.use("/api/numbers-called", numbersCalledRoutes);
 app.use("/api/bingo-cards", bingoCardsRoutes);
 
+//automatic functions for checking wins, maybe should be in a differnt file
+function updateCardBooleanArrays(db) {
+    //doesn't need to return anything, just update card bools
+}
+function checkWinConditions(db) {
+    //needs to return(resolve for promises) the id of the first card to meet a win condition
+}
+
 //start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

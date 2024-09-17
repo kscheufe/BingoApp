@@ -35,18 +35,25 @@ const WinCondition = () => {
             });
     }
 
-    //toggle cell (button) in the addWinCondition field
-    const toggleButton = (rowIndex, colIndex) => {
-        //make a new bingo card
-        const updatedBingoCard = new BingoCard();
-        //get the card bools from current bingo card's selections
-        updatedBingoCard.bools = bingoCard.getCardBools().map((row, rIndex) => 
-            row.map((cell, cIndex) => (rIndex === rowIndex && cIndex === colIndex ? !cell : cell))
-        );
+    const deleteWinCondition = (id) => {
+        axios.delete(`/api/winConditions/${id}`)
+        .then(response => {
+            console.log(response.data.message);
+        })
+        .catch((error) => {
+            console.log(error.response.data.error);
+        })
+    }
 
-        //rerender
-        setBingoCard(updatedBingoCard);
-    };
+    const toggleWinCondition = (id) => {
+        axios.post(`/api/winConditions/toggle/${id}`)
+        .then(response => {
+            processWinFound(response.data.winFound);
+        })
+        .catch((error) => {
+            console.log(error.response.data.error);
+        })
+    }
 
     const winConditionSubmit = () => {
         //deep copy of boolean array - prevents all win conditions from being overwritten by the new one
@@ -59,12 +66,7 @@ const WinCondition = () => {
         })
         .then(response => {
             //check for wins (only applicable in this new condition)
-            const winFound = response.data.winFound;
-            if (winFound !== -1)
-            {
-                alert("Win Found in Card: " + winFound);
-                //process win notification   
-            }
+            processWinFound(response.data.winFound);
             //rerender
             fetchWinConditions();
             //toggle confirmation, cancel, and add button (!add == confirmation)
@@ -74,6 +76,28 @@ const WinCondition = () => {
             console.error("Error adding win condition: " + error);
         });
     }
+
+    const processWinFound = (winFound) => {
+        if (winFound !== -1)
+        {
+            //notify
+            alert("Win Found in Card: " + winFound);
+        }
+    }
+
+    
+    //toggle cell (button) in the addWinCondition field
+    const toggleButton = (rowIndex, colIndex) => {
+        //make a new bingo card
+        const updatedBingoCard = new BingoCard();
+        //get the card bools from current bingo card's selections
+        updatedBingoCard.bools = bingoCard.getCardBools().map((row, rIndex) => 
+            row.map((cell, cIndex) => (rIndex === rowIndex && cIndex === colIndex ? !cell : cell))
+        );
+
+        //rerender
+        setBingoCard(updatedBingoCard);
+    };
 
     const toggleAddWinConditionsDisplay = () => {
         //reset add condition card to empty when displaying it

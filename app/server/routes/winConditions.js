@@ -45,8 +45,8 @@ module.exports = function(db) {
             //only this card will need to be done, and only if being set active, but for now check all
             checkWinConditions(db)
             .then(winFound => {
-                //respond to the front-end, returning the id of the toggled winCondition (for delete button to use), and winFound - which will be the first winning card's id or -1 if no win found
-                res.json({id: id, winFound});
+                //respond to the front-end, returning winFound - which will be the first winning card's id or -1 if no win found
+                res.json({winFound: winFound});
             })
             //res.json({ message: "win condition toggled successfully", changes: this.changes});
         });
@@ -63,7 +63,7 @@ module.exports = function(db) {
                 //should never happen as the only way to call this will be by clicking a delete icon on a card that has a valid id
                 return res.status(404).json({ error: "win condition not found"});
             }
-            res.json({ message: "win condition deleted successfully", changes: this.changes});
+            res.json({ message: "win condition deleted successfully"});
         });
     });
 

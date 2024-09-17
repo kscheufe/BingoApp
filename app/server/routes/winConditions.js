@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { updateCardBooleanArrays, checkWinConditions } = require('../gameLogic');
 
 module.exports = function(db) {
     //get all win conditions
@@ -19,7 +20,14 @@ module.exports = function(db) {
             if (err) {
                 return res.status(500).json({error: err.message });
             }
-            res.json({ id: this.lastID });//return unique id of the inserted win condition
+            //only this card will need to be done, but for now check all
+            checkWinConditions(db)
+            .then(winFound => {
+                winConditionID = this.lastID;
+                //respond to the front-end, returning the id of the new winCondition (for delete button to use), and winFound - which will be the first winning card's id or -1 if no win found
+                res.json({id: winConditionID, winFound});
+            })
+            
         });
     });
 
@@ -34,7 +42,13 @@ module.exports = function(db) {
                 //should never happen as the only way to call this will be by clicking a delete icon on a card that has a valid id
                 return res.status(404).json({ error: "win condition not found"});
             }
-            res.json({ message: "win condition toggled successfully", changes: this.changes});
+            //only this card will need to be done, and only if being set active, but for now check all
+            checkWinConditions(db)
+            .then(winFound => {
+                //respond to the front-end, returning the id of the toggled winCondition (for delete button to use), and winFound - which will be the first winning card's id or -1 if no win found
+                res.json({id: id, winFound});
+            })
+            //res.json({ message: "win condition toggled successfully", changes: this.changes});
         });
     });
 

@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors');
 const sqlite3 = require("sqlite3").verbose();
 const path = require('path');
+//const {updateCardBooleanArrays, checkWinConditions} = require('../server/gameLogic');
 
 //initializeDb call - db is already initialized
 const initDB = require("./db/initDB");//call init script
@@ -19,7 +20,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
     }
 });
    
-//import routes, passing in the DB connection
+//import routes, passing in the single DB connection
 const winConditionsRoutes = require("./routes/winConditions")(db);
 const numbersCalledRoutes = require("./routes/numbersCalled")(db);
 const bingoCardsRoutes = require("./routes/bingoCards")(db);
@@ -29,18 +30,10 @@ const bingoCardsRoutes = require("./routes/bingoCards")(db);
 app.use(cors());
 app.use(express.json());
 
-//use routes
+//use routes, pre-appends these two directions to the routes
 app.use("/api/win-conditions", winConditionsRoutes);
 app.use("/api/numbers-called", numbersCalledRoutes);
 app.use("/api/bingo-cards", bingoCardsRoutes);
-
-//automatic functions for checking wins, maybe should be in a differnt file
-function updateCardBooleanArrays(db) {
-    //doesn't need to return anything, just update card bools
-}
-function checkWinConditions(db) {
-    //needs to return(resolve for promises) the id of the first card to meet a win condition
-}
 
 //start server
 const PORT = process.env.PORT || 5000;

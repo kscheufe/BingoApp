@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import BingoCardComponent from './components/BingoCard';
 import AddWinCondition from './components/AddWinCondition';
 import axios from 'axios';
+import { response } from 'express';
 
 function App() {//starting point for the app
   const [inputValue, setInputValue] = useState('');
@@ -17,28 +18,49 @@ function App() {//starting point for the app
     if (!inputValue.trim()) return; //prevents empty submissions
     const numberToCall = parseInt(inputValue);//ensures it's an int
 
-    //FRONTEND
     axios.post(`/api/numbers-called/${numberToCall}`)
       .then(response => {
         console.log('Number called: ', response.data);
-        //update list of called numbers, DOESN'T EXIST YET
-        fetchUpdatedNumbers();
+        //update list of called numbers, DOESN'T EXIST in frontend YET
+        fetchNumbers();
         //redraw cards
-        fetchUpdatedCards();
+        fetchCards();
 
       })
       .catch(error => console.error("error calling number - app.js: ", error));
-    //BACKEND
-    //check win conditions against each card
-
     //reset the input value
     setInputValue('');
   } 
 
-  const fetchUpdatedCards = () => {};
-  const fetchUpdatedNumbers = () => {};
-  const fetchUpdatedWinConditions = () => {};
+  const fetchCards = () => {
+    axios.get(`/api/bingo-cards`)
+    .then(response => {
+      console.log("Get bingo cards response: "+ response.data);
+      //other methods here, none yet
+      //need to rerender bingo cards in bingoCard component, use props?
+    })
+    .catch(error => console.error("Error fetching bingo cards - app.js", error));
+  };
+  const fetchNumbers = () => {
+    axios.get(`/api/numbers-called/`)
+    .then(response => {
+      console.log("Get numbers called response: " + response.data);
+      //any other methods here - none yet*****
+        //eventually need to display most recent 3-5 at the top for easy correction, and display all 
+        //also trigger a rerender of the called numbers in the called numbers tab, will have to use props or some other method to notice the change most likely, unless it can dynamically databind like angular
+    })
+    .catch(error => console.error("Error fetching called numbers - app.js ", error));
+  };
+  const fetchWinConditions = () => {
+    axios.get(`/api/win-conditions/`)
+    .then(response => {
+      console.log("Get win conditions response: " + response.data);
+      //any other methods here - none yet****
+      //rerender winConditions section
+    })
+  };
 
+  //add a numbers called component
   return (
     <div className="App">
       <header className="App-header">

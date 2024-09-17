@@ -29,7 +29,8 @@ db.serialize(() => {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         card TEXT,
         is_active BOOLEAN DEFAULT 1
-    )`);
+    )`);//card TEXT includes both the numbers and the booleans for the card
+    //look into existing code more, but could be implemented as 1d array of objects with number field and boolean field each
 });
 
 db.close();

@@ -23,9 +23,9 @@ module.exports = function(db) {
             //only this card will need to be done, but for now check all
             checkWinConditions(db)
             .then(winFound => {
-                winConditionID = this.lastID;
-                //respond to the front-end, returning the id of the new winCondition (for delete button to use), and winFound - which will be the first winning card's id or -1 if no win found
-                res.json({id: winConditionID, winFound});
+                //winConditionID = this.lastID; - provided in get
+                //respond to the front-end, only needs winFound as front end will trigger rerender on response
+                res.json({winFound});
             })
             
         });

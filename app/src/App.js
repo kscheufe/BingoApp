@@ -70,6 +70,7 @@ function App() {//starting point for the app
             </label>
             <button type = "submit">Submit</button>
         </form>
+        <header>Recent Numbers (Component)</header>
         <BingoCardComponent />
         <AddWinCondition />
       </header>

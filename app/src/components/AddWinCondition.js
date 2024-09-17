@@ -13,22 +13,27 @@ import axios from 'axios';
 //soon just for displaying win conditions and sending new ones to backend
 //--------------------
 
-const WinCondition = (/*{ onWinConditionsUpdate }*/) => {
+const WinCondition = () => {
     const [bingoCard, setBingoCard] = useState(new BingoCard());//inside the useState is the default value for it to take
-    const [winConditionsList, setWinConditionsList] = useState([]);//list of confirmed win conditions, empty by default (winning impossible)
+    const [winConditionsList, setWinConditionsList] = useState([]);//list of confirmed win conditions, empty initially but will load from db on mount
     const [showWinConditionsField, setShowWinConditionsField] = useState(false);//false by default until the add button is pressed
-
+    
     //fetch initial win conditions from the backend when the component mounts
     useEffect(() => {
+        fetchWinConditions();
+        console.log("fetched initial win conditions - addWinConditionComponent");
+    }, []);//empty array was actually necessary to prevent infinite looping/rerendering
+    //this specifies to only run once, when component mounts
+
+    const fetchWinConditions = () => {
         axios.get('/api/win-conditions')
             .then(response => {
-                setWinConditionsList(response.data);
-                //onWinConditionsUpdate(response.data);//send win conditions to the parent (app.js)
+                setWinConditionsList(response.data);//this line rerenders automatically
             })
             .catch(error => {
                 console.error("Error fetching win conditions: ", error);
             });
-    }, [/*onWinConditionsUpdate*/]);
+    }
 
     //toggle cell (button) in the addWinCondition field
     const toggleButton = (rowIndex, colIndex) => {
@@ -44,34 +49,39 @@ const WinCondition = (/*{ onWinConditionsUpdate }*/) => {
     };
 
     const winConditionSubmit = () => {
-        //deep copy of boolean array
+        //deep copy of boolean array - prevents all win conditions from being overwritten by the new one
         const newWinCondition = bingoCard.getCardBools().map(row => row.slice());
         
-        //*********console.log(JSON.stringify(newWinCondition));
         //post new win condition to the backend
-        axios.post('/api/win-conditions', {
+        axios.post('/api/win-conditions/add', {
             condition: JSON.stringify(newWinCondition), 
             is_active: true //make new conditions activeby default
         })
         .then(response => {
-            //append the new win condition to the state upon successful addition
-            console.log(response.data);
-            const updatedWinConditionsList = [...winConditionsList, response.data];
-            //set the win Conditions List
-            setWinConditionsList(updatedWinConditionsList);
-            //send the win conditions list back to the parent (app.js)
-            /*onWinConditionsUpdate(updatedWinConditionsList);*/
+            //check for wins (only applicable in this new condition)
+            const winFound = response.data.winFound;
+            if (winFound !== -1)
+            {
+                alert("Win Found in Card: " + winFound);
+                //process win notification   
+            }
+            //rerender
+            fetchWinConditions();
             //toggle confirmation, cancel, and add button (!add == confirmation)
             toggleAddWinConditionsDisplay();
         })
         .catch(error => {
             console.error("Error adding win condition: " + error);
         });
-
-        //alert(newWinCondition);
     }
 
     const toggleAddWinConditionsDisplay = () => {
+        //reset add condition card to empty when displaying it
+        if (showWinConditionsField)
+        {
+            //reset the bingo card bools in the frontend to prevent selction persisting next time you try to add one
+            setBingoCard(new BingoCard());
+        }
         setShowWinConditionsField(!showWinConditionsField);
     }
 

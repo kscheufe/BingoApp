@@ -3,7 +3,6 @@ import React, {useState} from 'react';
 import BingoCardComponent from './components/BingoCard';
 import AddWinCondition from './components/AddWinCondition';
 import axios from 'axios';
-import { response } from 'express';
 
 function App() {//starting point for the app
   const [inputValue, setInputValue] = useState('');

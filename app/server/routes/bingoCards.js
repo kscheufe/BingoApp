@@ -28,16 +28,35 @@ module.exports = function(db) {
             .then(checkWinConditions(db))
             .then(winFound => {
                 //return the id of the new card, and the winFound number (the winning card's index or -1)
-                res.json({id: this.lastID, winFound});
+                res.json({winFound: winFound});
             });
-            //res.json({ id: this.lastID});//return id of the new card
         });
     });
 
-    //edit card? - maybe, seems redundant with the camera/ml. probably handle editing in backend, before api call
+    //toggle card
+    router.post('/toggle/:id', (req, res) => {
+        const id = req.params.id;
+        db.run("UPDATE bingo_cards SET is_active = NOT is_active WHERE id = ?", [id], function(err) {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            if (this.changes === 0) {
+                //should never happen as the only way to call this will be by clicking a delete icon on a card that has a valid id
+                return res.status(404).json({ error: "win condition not found"});
+            }
+            //only really need to check this card, and only when it's toggled active - future modification
+            //can do with something like const id = this.lastID
+            updateCardBooleanArrays(db)
+            .then(checkWinConditions(db))
+            .then(winFound => {
+                //return the winFound number (the winning card's index or -1)
+                res.json({winFound: winFound});
+            });
+        })
+    })
 
     //delete single card
-    router.delete('/:id', (req, res) => {
+    router.delete('/deleteOne/:id', (req, res) => {
         const id = req.params.id;
         db.run("DELETE FROM bingo_cards WHERE id = ?", [id], function(err) {
             if (err) {
@@ -51,7 +70,7 @@ module.exports = function(db) {
     });
 
     //delete all cards
-    router.delete('/', (req, res) => {
+    router.delete('/deleteAll', (req, res) => {
         db.run("DELETE FROM bingo_cards", [], function(err) {
             if (err) {
                 return res.status(500).json({ error: err.message});

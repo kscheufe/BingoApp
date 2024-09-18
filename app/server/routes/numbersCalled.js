@@ -39,9 +39,10 @@ module.exports = function(db) {
     });
 
     //delete a number - update to game state, but shouldn't need any other calls since next number added will recheck all cards against the whole list? - maybe
-    router.delete('/:id', (req, res) => {
+    router.delete('/deleteIndividual/:id', (req, res) => {
         const id = req.params.id;
         db.run('DELETE FROM numbers_called WHERE id = ?', [id], function(err) {
+            console.log("delete/:id ru");
             if (err) {
                 return res.status(500).json({ error: err.message});
             }

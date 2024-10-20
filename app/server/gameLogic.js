@@ -79,12 +79,58 @@ function updateBoolArray(cardNumbers, calledNumbers) {
     //it with true/false values depending on if the number exists in calledNumbers
 }
 
-function checkWinConditions(db) {
-    return new Promise((resolve, reject) => {
-        console.log("checking win conditions - not implemented");
-        const winFound = -1;
-        //implement necessary operations
-        resolve(winFound);
-    });
+async function checkWinConditions(db) {//returns -1 or id of winning card
+    try {
+        //get winConditions from db
+        const winConditionsRows = await new Promise((resolve, reject) => {
+            db.all('SELECT * FROM win_conditions WHERE is_active = 1', [], (err, winConditionsRows) => {
+                if (err) { return reject(err); }
+                resolve(rows);
+            });
+        });
+
+        //extract win conditions to backend format
+        const winConditions = winConditionsRows.map(row => JSON.parse(row.condition));
+        
+        //fetch all bingo cards
+        const bingoCardsRows = await new Promise((resolve, reject) => {
+            db.all('SELECT * FROM bingo_cards WHERE is_active = 1', [], (err, rows) => {
+                if (err) { return reject(err); }
+                resolve(rows);
+            });
+        });
+
+        //check each card against each win condition
+        for (const card of bingoCardsRows) {
+            const bools = JSON.parse(card.card.bools);
+
+            for (const winCondition of winConditions) {
+                if (checkWin(bools, winCondition)) {
+                    return card.id;//return winning card id immediately
+                }
+            }
+        }
+        //if no win is found, return -1
+        return -1;
+    }
+    catch (error) {
+        console.error('Error checking win conditions: ', error);
+        throw error; //rethrow the error
+    }
 }
+
+//returns true if cardBools && winConditionBools == winConditionBools
+//converted to binary numbers for efficiency and coolness
+function checkWin(cardBools, winConditionBools)
+{
+    //syntax: accumulator, currBool, index
+    //logic: for each element, evaluate currBool (0 or 1), shift it i bits left, and add to accumulator
+    const cardBinary = cardBools.reduce((acc, bool, i) => acc | (bool << i), 0);
+    const winConditionBinary = winConditionBools.reduce((acc, bool, i) => acc | (bool << i), 0);
+
+    //use bitwise checking for fun
+    return (cardBinary & winConditionBinary) === winConditionBinary;
+}
+
+
 module.exports = {updateCardBooleanArrays, checkWinConditions};

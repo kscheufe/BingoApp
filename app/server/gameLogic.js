@@ -1,57 +1,70 @@
 /**
-Was thinking of combining these into one function, since I thought 
-updating card boolean arrays will always require a winCondition check.
-However, update card boolean arrays will also need to be called when a 
-calledNumber is deleted (after improper input), so it is best to keep them
-modular.
-Additionally, there are many sub-functions I could create for updating a 
-single card, checking all cards against a single win condition, etc. for 
-this, there would be a lot of passing parameters if I wanted to keep the
-db calls minimum, but that would also introduce many possible error points
-and make the code more difficult to read/maintain, so we'll save it for a 
-(potential) future refactor, if needed - though that seems unlikely
- 
 Potential Future Refactors: 
 - optimize updating the db tables in updateCardBooleanArrays with batch operations
+- DUPLICATE the functions and chain them together for 
+    new number -> update bools -> check win conditions
+  workflow. The separate functions still are necessary
+- Remove the explicit promises in dbAll by binding promisify to the call itself
+    const util = require('util');
+    const dbAll = util.promisify(db.all).bind(db);
+    ...
+    const cardRows = await dbAll('SELECT * FROM bingo_cards WHERE is_active = 1');
+- Implement single modifier functions to save computational complexity of rechecking unchanged cards, etc.
 */
-function updateCardBooleanArrays(db) {
-    return new Promise((resolve, reject) => {
-        //update the boolean arrays of each card
-        console.log("updating card boolean arrays - not implemented");
-
-        //get all called numbers then active cards
-        db.all('SELECT * FROM numbers_called', [], (err, calledNumbersRows) => {
-            if (err) {return reject(err); }
-
-            //get the number from each row of the database
-            const calledNumbers = calledNumbersRows.map(row => row.numbers);
-
-            db.all('SELECT * FROM bingo_cards WHERE is_active = 1', [], (err, cardRows) => {
+async function updateCardBooleanArrays(db) {
+    try {
+        const calledNumbersRows = await new Promise((resolve, reject) => {
+            db.all('SELECT * FROM numbers_called', [], (err, rows) => {
                 if (err) { return reject(err); }
+                resolve(rows);
+            });
+        });
 
-                //cardRows is each full card (text) field from db
-                cardRows.foreach(card => {
-                    //extract card data = {numbers: [...], bools:[...]}
-                    const cardData = JSON.parse(card.card);
-                    //update bool array
-                    cardData.bools = updateBoolArray(cardData.numbers, calledNumbers);
+        //extract called numbers from each db row
+        const calledNumbers = calledNumbersRows.map(row => row.numbers);
 
-                    //update db
-                    db.run('UPDATE bingo_cards SET card ? WHERE id = ?', 
-                        [JSON.stringify(cardData, card.id)],
-                        (err) => { if (err) { console.log(`Error updating card ${card.id}:`, err.message)}}
-                    );
+        //get all active bingo cards using another promise
+        const cardRows = await new Promise((resolve, reject) => {
+            db.all('SELECT * FROM bingo_cards WHERE is_active = 1', [], (err, rows) => {
+                if (err) return reject(err);
+                resolve(rows);
+            });
+        });
 
-                });//end cardRows.foreach
-            })//end db.all(cards)
-        })//end db.all(numbers)
+        //update boolean arrays and send back to db
+        const updatePromises = cardRows.map(card => {
+            return new Promise((resolveUpdate, rejectUpdate) => {
+                //extract card data = {numbers: [...], bools:[...]}
+                const cardData = JSON.parse(card.card);
+                //update bool array
+                cardData.bools = updateBoolArray(cardData.numbers, calledNumbers);
 
+                //update db
+                db.run('UPDATE bingo_cards SET card ? WHERE id = ?', 
+                    [JSON.stringify(cardData), card.id],
+                    (err) => { 
+                        if (err) { 
+                            console.log(`Error updating card ${card.id}:`, err.message);
+                            rejectUpdate(err);//reject the promise if update fails
+                        }
+                        else {
+                            resolveUpdate();
+                        }
+                    }
+                );
+            });//end return promise
+        });
 
-        
-        //use another db.run, not a call to post, as that will create an infinite loop
+        //wait for all updates to complete
+        await Promise.all(updatePromises);
 
-        resolve();
-    });
+        //resolve if all updates are successful
+        return;
+    }
+    catch (error) {
+        console.error('Error updating card boolean arrays:', error);
+        throw error;//use throw instead of reject in async function
+    }
 }
 
 function updateBoolArray(cardNumbers, calledNumbers) {

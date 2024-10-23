@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import axios from 'axios';
 
-function NumbersCalledComponent(/*{ recentNumbers, fetchNumbers }*/) {
+const NumbersCalledComponent = forwardRef((props, ref) => {
     const [allNumbers, setAllNumbers] = useState([]);
 
     //fetch all numbers when component mounts
     useEffect(() => {
         fetchNumbers();
     }, []);
+
+    //expose refresh method to parent
+    useImperativeHandle(ref, () => ({
+        refreshNumbers() {
+            fetchNumbers();
+        }
+    }))
 
     const fetchNumbers = () => {
         axios.get('/api/numbers-called/')
@@ -35,7 +42,7 @@ function NumbersCalledComponent(/*{ recentNumbers, fetchNumbers }*/) {
             fetchNumbers();
         })
         .catch(error => console.error('Error deleting all numbers - numbersCalledComponent', error));
-    }
+    };
 
     return (
         <div className="numbers-called-component">
@@ -70,6 +77,6 @@ function NumbersCalledComponent(/*{ recentNumbers, fetchNumbers }*/) {
             <button onClick={fetchNumbers}>Refresh Numbers</button>
         </div>
     );
-}
+});
 
 export default NumbersCalledComponent;

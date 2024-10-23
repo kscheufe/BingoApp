@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import BingoCardComponent from './components/BingoCard';
 import NumbersCalledComponent from './components/NumbersCalled';
 import WinConditionsComponent from './components/WinConditions';
@@ -12,9 +12,13 @@ function App() {//starting point for the app
   const [recentNumbers, setRecentNumbers] = useState([]);//for the list of three recently called numbers
   //const [allNumbers, setAllNumbers] = useState([]); //not sure if actually needed in this component
 
+  const numbersCalledRef = useRef(null);
+
+  
   useEffect(() => {
-    fetchNumbers();//fetchNumbers when component mounts, likely unnecessary but could prevent some user use-case errors
+    fetchRecentNumbers();//fetchRecentNumbers when component mounts, likely unnecessary but could prevent some user use-case errors
   }, []);
+  
 
   const handleInputFieldChange = (event) => {
       setInputValue(event.target.value);
@@ -30,7 +34,10 @@ function App() {//starting point for the app
       .then(response => {
         console.log('Number called: ', response.data);
         //update list of called numbers, DOESN'T EXIST in frontend YET
-        fetchNumbers();
+        fetchRecentNumbers();
+        if (numbersCalledRef.current) {
+          numbersCalledRef.current.refreshNumbers();//trigger refresh in NumbersCalledComponent
+        }
         //redraw cards
         fetchCards();
 
@@ -49,7 +56,7 @@ function App() {//starting point for the app
     })
     .catch(error => console.error("Error fetching bingo cards - app.js", error));
   };
-  const fetchNumbers = () => {
+  const fetchRecentNumbers = () => {
     axios.get(`/api/numbers-called/`)
     .then(response => {
       console.log("Get numbers called response: " + response.data);
@@ -76,13 +83,12 @@ function App() {//starting point for the app
   }
 
   const renderActiveComponent = () => {
-    const commonProps = { fetchNumbers };//for refreshing recent numbers
-
     switch (activeComponent) {
       case 'bingo':
         return <BingoCardComponent />
       case 'numbersCalled':
         return <NumbersCalledComponent 
+          ref={numbersCalledRef}
           //recentNumbers={recentNumbers}
           //fetchNumbers={fetchNumbers}//probably a double update here
         />
@@ -110,7 +116,7 @@ function App() {//starting point for the app
         <div className="recent-numbers">
           <h3>Recent Numbers:</h3>
           {recentNumbers.map((number) => (
-            <span key={number.id} calssName="recent-number">
+            <span key={number.id} className="recent-number">
               {number.number}
             </span>
           ))}

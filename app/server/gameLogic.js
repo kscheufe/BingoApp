@@ -85,7 +85,7 @@ async function checkWinConditions(db) {//returns -1 or id of winning card
         const winConditionsRows = await new Promise((resolve, reject) => {
             db.all('SELECT * FROM win_conditions WHERE is_active = 1', [], (err, winConditionsRows) => {
                 if (err) { return reject(err); }
-                resolve(rows);
+                resolve(winConditionsRows);
             });
         });
 

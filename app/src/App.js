@@ -78,7 +78,10 @@ function App() {//starting point for the app
       case 'bingo':
         return <BingoCardComponent />
       case 'numbersCalled':
-        return <NumbersCalledComponent />
+        return <NumbersCalledComponent 
+          recentNumbers={recentNumbers}
+          fetchNumbers={fetchNumbers}
+        />
       case 'winConditions':
         return <WinConditionsComponent />
       default:

@@ -11,7 +11,6 @@ function App() {//starting point for the app
   const [activeComponent, setActiveComponent] = useState('bingo');//currently active component
   const [recentNumbers, setRecentNumbers] = useState([]);//for the list of three recently called numbers
   //const [allNumbers, setAllNumbers] = useState([]); //not sure if actually needed in this component
-
   const numbersCalledRef = useRef(null);
 
   
@@ -59,8 +58,6 @@ function App() {//starting point for the app
   const fetchRecentNumbers = () => {
     axios.get(`/api/numbers-called/`)
     .then(response => {
-      console.log("Get numbers called response: " + response.data);
-
       const sortedNumbers = [...response.data].sort((a, b) => b.id - a.id);
       setRecentNumbers(sortedNumbers.slice(0, 3));//sets most recent three numbers
       //any other methods here - none yet*****
@@ -89,8 +86,8 @@ function App() {//starting point for the app
       case 'numbersCalled':
         return <NumbersCalledComponent 
           ref={numbersCalledRef}
+          fetchRecentNumbers={fetchRecentNumbers}//pass method as a prop to child
           //recentNumbers={recentNumbers}
-          //fetchNumbers={fetchNumbers}//probably a double update here
         />
       case 'winConditions':
         return <WinConditionsComponent />

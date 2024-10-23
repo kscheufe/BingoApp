@@ -26,13 +26,22 @@ const NumbersCalledComponent = forwardRef((props, ref) => {
     }
 
     function deleteNumber(numberId) {
-        console.log("delete number id: " + numberId + " called");
+
+        /* Optimistic deletion option for responsiveness
+        ****DOESN'T HELP - backend operations are what takes time here and app.js doesn't refresh until db has responded
+            - but could do with extra prop/ref functions. This seems much messier though
+        const updatedNumbers = allNumbers.filter(number => number.id !== numberId);
+        setAllNumbers(updatedNumbers);
+        //*/
         axios.delete(`/api/numbers-called/deleteIndividual/${numberId}`)
         .then(response => {
             console.log(`Deleted number with id ${numberId}`);
             fetchNumbers();//refresh the list after deletion
+            props.fetchRecentNumbers();//trigger refresh for recent numbers in app.js
         })
         .catch(error => console.error(`Error deleting number ${numberId} - NumbersCalledComponent `, error));
+        //optimistic delete option, shouldn't be necessary with fixed delete button structure
+        //setAllNumbers(prevNumbers => [...prevNumbers], {id: numberId, number: numberId/* This has to be wrong, but I don't think the actual number was passed anywhere */})
     };
 
     function deleteAllNumbers() {
@@ -40,6 +49,7 @@ const NumbersCalledComponent = forwardRef((props, ref) => {
         .then(response => {
             console.log('Deleted all numbers');
             fetchNumbers();
+            props.fetchRecentNumbers();//trigger refresh for recent numbers in app.js
         })
         .catch(error => console.error('Error deleting all numbers - numbersCalledComponent', error));
     };

@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import BingoCardComponent from './components/BingoCard';
 import NumbersCalledComponent from './components/NumbersCalled';
 import WinConditionsComponent from './components/WinConditions';
@@ -11,6 +11,10 @@ function App() {//starting point for the app
   const [activeComponent, setActiveComponent] = useState('bingo');//currently active component
   const [recentNumbers, setRecentNumbers] = useState([]);//for the list of three recently called numbers
   //const [allNumbers, setAllNumbers] = useState([]); //not sure if actually needed in this component
+
+  useEffect(() => {
+    fetchNumbers();//fetchNumbers when component mounts, likely unnecessary but could prevent some user use-case errors
+  }, []);
 
   const handleInputFieldChange = (event) => {
       setInputValue(event.target.value);
@@ -79,8 +83,8 @@ function App() {//starting point for the app
         return <BingoCardComponent />
       case 'numbersCalled':
         return <NumbersCalledComponent 
-          recentNumbers={recentNumbers}
-          fetchNumbers={fetchNumbers}
+          //recentNumbers={recentNumbers}
+          //fetchNumbers={fetchNumbers}//probably a double update here
         />
       case 'winConditions':
         return <WinConditionsComponent />

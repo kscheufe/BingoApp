@@ -6,6 +6,7 @@ module.exports = function(db) {
     //get all numbers
     router.get('/', (req, res) => {
         db.all('SELECT * FROM numbers_called', [], (err, rows) => {
+            console.log("get received by server: numbersCalled");
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
@@ -15,8 +16,8 @@ module.exports = function(db) {
 
     //add new number - update to game state
     router.post('/:num', (req, res) => {
-        console.log("post received by server");
         const num = req.params.num;
+        console.log("post received by server, number: " + num);
         db.run('INSERT INTO numbers_called (number) VALUES (?)', [num], function(err) {
             if (err) {
                 if (err.code === 'SQLITE_CONSTRAINT') {
@@ -47,7 +48,7 @@ module.exports = function(db) {
     router.delete('/deleteIndividual/:id', (req, res) => {
         const id = req.params.id;
         db.run('DELETE FROM numbers_called WHERE id = ?', [id], function(err) {
-            console.log("delete/:id ru");
+            console.log("delete received by server: numberCalled id: " + id);
             if (err) {
                 return res.status(500).json({ error: err.message});
             }
@@ -63,6 +64,7 @@ module.exports = function(db) {
     //delete all numbers (new game) - same as above
     router.delete('/deleteAll', (req, res) => {
         db.run('DELETE from numbers_called', [], function(err) {
+            console.log("delete all received by server - numbersCalled")
             if (err) {
                 return res.status(500).json({error: err.message});
             }

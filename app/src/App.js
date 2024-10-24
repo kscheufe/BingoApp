@@ -112,11 +112,18 @@ function App() {//starting point for the app
         {/* Display most recent numbers */}
         <div className="recent-numbers">
           <h3>Recent Numbers:</h3>
-          {recentNumbers.map((number) => (
-            <span key={number.id} className="recent-number">
-              {number.number}
-            </span>
-          ))}
+          {recentNumbers.length > 0 ? (
+            <p>
+              {recentNumbers.map((number) => (
+                <span key={number.id} className="recent-number">
+                  {number.number + " "}
+                </span>
+              ))}
+            </p>
+          ): (
+            <p>No numbers called yet.</p>
+          )}
+
         </div>
 
         {/* Scrollable naviagtion for components (will be swipeable in app) */}

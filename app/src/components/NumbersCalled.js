@@ -59,9 +59,11 @@ const NumbersCalledComponent = forwardRef((props, ref) => {
             <h2>Numbers Called</h2>
             
             {/* Delete all numbers button */}
-            <button onClick={deleteAllNumbers} className='delete-all-button'>
-                Delete AllNumbers
-            </button>
+            {allNumbers.length > 0 ? (
+                <button onClick={deleteAllNumbers} className='delete-all-button'>
+                    Delete AllNumbers
+                </button>
+            ) : (null)}
 
             {/* List of Numbers Called */}
             <div className="numbers-list">
@@ -83,8 +85,8 @@ const NumbersCalledComponent = forwardRef((props, ref) => {
                     <p>No numbers called yet.</p>
                 )} 
             </div>
-            {/* You can add a refresh button if you want */}
-            <button onClick={fetchNumbers}>Refresh Numbers</button>
+            {/* You can add a refresh button if you want <button onClick={fetchNumbers}>Refresh Numbers</button>*/}
+            
         </div>
     );
 });

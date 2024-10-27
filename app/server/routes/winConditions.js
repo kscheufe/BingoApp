@@ -16,8 +16,10 @@ module.exports = function(db) {
 
     //add a new win condition
     router.post('/add', (req, res) => {
-        const { condition, is_active } = req.body;
+        let { condition, is_active } = req.body;
+        if (is_active == null) is_active = 1;//default setting true
         console.log("post(add) received by server: winCondition");
+        
         db.run('INSERT INTO win_conditions (condition, is_active) VALUES (?, ?)', [condition, is_active], function(err) {
             if (err) {
                 return res.status(500).json({error: err.message });
@@ -56,7 +58,7 @@ module.exports = function(db) {
     });
 
     //delete a win condition
-    router.delete('/:id', (req, res) => {
+    router.delete('/delete/:id', (req, res) => {
         console.log("delete received by server: winCondition");
         const id = req.params.id;
         db.run('DELETE FROM win_conditions WHERE id = ?', [id], function(err) {

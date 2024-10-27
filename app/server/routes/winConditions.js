@@ -5,6 +5,7 @@ const { updateCardBooleanArrays, checkWinConditions } = require('../gameLogic');
 module.exports = function(db) {
     //get all win conditions
     router.get('/', (req, res) => {
+        console.log("get received by server: winCondition");
         db.all('SELECT * FROM win_conditions', [], (err, rows) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
@@ -16,6 +17,7 @@ module.exports = function(db) {
     //add a new win condition
     router.post('/add', (req, res) => {
         const { condition, is_active } = req.body;
+        console.log("post(add) received by server: winCondition");
         db.run('INSERT INTO win_conditions (condition, is_active) VALUES (?, ?)', [condition, is_active], function(err) {
             if (err) {
                 return res.status(500).json({error: err.message });
@@ -33,6 +35,7 @@ module.exports = function(db) {
 
     //toggle a win condition active or inactive (needs ID)
     router.post('/toggle/:id', (req, res) => {
+        console.log("post(toggle) received by server: winCondition");
         const id = req.params.id;
         db.run('UPDATE win_conditions SET is_active = NOT is_active WHERE id = ?', [id], function(err) {
             if (err) {
@@ -54,6 +57,7 @@ module.exports = function(db) {
 
     //delete a win condition
     router.delete('/:id', (req, res) => {
+        console.log("delete received by server: winCondition");
         const id = req.params.id;
         db.run('DELETE FROM win_conditions WHERE id = ?', [id], function(err) {
             if (err) {

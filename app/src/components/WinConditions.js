@@ -20,7 +20,7 @@ const WinConditionsComponent = () => {
     }, []);
 
     const fetchWinConditions = () => {
-        axios.get('/api/winConditions/')
+        axios.get('/api/win-conditions/')
         .then(response => {
             setWinConditions(response.data);//update state with fetched win conditions
         })
@@ -42,9 +42,10 @@ const WinConditionsComponent = () => {
 
     const handleAddCondition = (event) => {
         event.preventDefault();
-        if (!currentCondition.trim()) return; //prevent empty submission, shouldn't happen
+        //if (!currentCondition.trim()) return; //prevent empty submission, shouldn't happen
         
-        axios.post('/api/winConditions/add', {condition: currentCondition })
+        const condition = JSON.stringify(currentCondition);//serialize it for db
+        axios.post('/api/win-conditions/add', {condition})
         .then(response => {
             console.log("Added win condition: ", response.data);
             fetchWinConditions();
@@ -89,20 +90,36 @@ return (
         <h3>Existing Win Conditions</h3>
         <ul>
             {winConditions.length >0 ? (
-                winConditions.map((condition, index) => {
-                    <li key={index}>
-                        <div className='condition-grid'>
-                            {condition.map((row, rowIndex) => (
-                                <div key={rowIndex} className='condition-row'>
-                                    {row.map((value, colIndex) => (
-                                        <span key={colIndex} className={`condition-cell ${value ? 'true' : 'false'}`}>
-                                            {value ? 'T' : 'F'}
-                                        </span>
-                                    ))}
-                                </div>
-                            ))}
-                        </div>
-                    </li>
+                winConditions.map((conditionData, index) => {
+                    const condition = typeof conditionData.condition === 'string'
+                        ? JSON.parse(conditionData.condition)
+                        : conditionData.condition;
+                    console.log("conditionData.condition: ", conditionData.condition);
+                    console.log("Typeof condition: ", typeof condition)
+                    console.log("Typeof conditionData: ", typeof conditionData === 'string')
+                    
+                    
+                    return (
+                        <li key={index}>
+                            <div className='condition-grid'>
+                                {//console.log(condition)
+                                    //id = condition.id;
+                                    //condition = condition.condition
+                                    //status = condition.isActive
+                                    //console.log(JSON.parse(condition.condition))
+                                }
+                                {condition.map((row, rowIndex) => (
+                                    <div key={rowIndex} className='condition-row'>
+                                        {row.map((value, colIndex) => (
+                                            <span key={colIndex} className={`condition-cell ${value ? 'true' : 'false'}`}>
+                                                {value ? 'T' : 'F'}
+                                            </span>
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+                        </li>
+                    )
                 })
             ) : (
                 <p>No win conditions added yet</p>

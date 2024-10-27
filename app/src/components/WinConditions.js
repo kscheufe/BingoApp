@@ -12,7 +12,7 @@ const defaultWinCondition = [
 const WinConditionsComponent = () => {
     const [winConditions, setWinConditions] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
-    const [currentCondition, setCurrentCondition] = useState([]);
+    const [currentCondition, setCurrentCondition] = useState(defaultWinCondition);
     //const [newCondition, setNewCondition] = useState('');
 
     useEffect(() => {
@@ -64,7 +64,7 @@ return (
         {/* If editing, show the grid for user to configure the new condition */}
         {isEditing && (
             <div className='condition-editing'>
-                <h3>Edit WinCondition</h3>
+                <h3>Edit Win Condition</h3>
                 <div className='condition-grid'>
                     {currentCondition.map((row, rowIndex) => (
                         <div key = {rowIndex} className = "condition-row">

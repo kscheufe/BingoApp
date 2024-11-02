@@ -53,7 +53,11 @@ const WinConditionsComponent = () => {
             setIsEditing(false);
             setCurrentCondition(defaultWinCondition);//reset condition to default after submission
         })
-        .catch(error => console.error('Error deleting win condition ${conditionId}: ', error));
+        .catch(error => 
+        {
+            console.error(`Error adding win condition - WinConditions.js `, error);
+            alert("Win Condition Already Exists");//not guaranteed to be the case, temporary
+        });
     };
 
     const handleToggleCondition = (id) => {

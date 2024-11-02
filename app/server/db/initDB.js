@@ -18,7 +18,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
 db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS win_conditions (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        condition TEXT,
+        condition TEXT UNIQUE,
         is_active BOOLEAN DEFAULT 0
     )`);
     db.run(`CREATE TABLE IF NOT EXISTS numbers_called (

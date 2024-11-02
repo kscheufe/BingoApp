@@ -13,7 +13,6 @@ const WinConditionsComponent = () => {
     const [winConditions, setWinConditions] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [currentCondition, setCurrentCondition] = useState(defaultWinCondition);
-    //const [newCondition, setNewCondition] = useState('');
 
     useEffect(() => {
         fetchWinConditions(); //fetch conditions when component mounts
@@ -27,8 +26,10 @@ const WinConditionsComponent = () => {
         .catch(error => console.error("Error fetching win conditions - winCondition component", error));
     };
 
+    //also used to cancel editing
     const startEditing = () => {
         //setCurrentCondition(defaultWinCondition);//init to default
+        //might not want to default to default every time, only for sure after one is submitted
         setIsEditing(!isEditing);//show editing grid
     }
 
@@ -42,9 +43,9 @@ const WinConditionsComponent = () => {
 
     const handleAddCondition = (event) => {
         event.preventDefault();
-        //if (!currentCondition.trim()) return; //prevent empty submission, shouldn't happen
-        
+        //don't need to prevent empty submission, not possible
         const condition = JSON.stringify(currentCondition);//serialize it for db
+
         axios.post('/api/win-conditions/add', {condition})
         .then(response => {
             console.log("Added win condition: ", response.data);
@@ -54,6 +55,24 @@ const WinConditionsComponent = () => {
         })
         .catch(error => console.error('Error deleting win condition ${conditionId}: ', error));
     };
+
+    const handleToggleCondition = (id) => {
+        axios.post(`/api/win-conditions/toggle/${id}`)
+        .then(response => {
+            console.log("WinCondition.js-Toggled win condition, id: ", id)
+            fetchWinConditions();
+        })
+        .catch(error => console.error(`Error toggling win condition, id: ${id}`, error))
+    }
+
+    const handleDeleteCondition = (id) => {
+        axios.delete(`/api/win-conditions/delete/${id}`)
+        .then(response => {
+            console.log("WinCondition.js-Deleted win condition, id: ", id);
+            fetchWinConditions();
+        })
+        .catch(error => console.error(`Error deleting winCondition, id: ${id}`, error));
+    }
 
 return (
     <div className='win-conditions-component'>
@@ -89,16 +108,15 @@ return (
         {/* List of win conditions */}
         <h3>Existing Win Conditions</h3>
         <ul>
-            {winConditions.length >0 ? (
+            {winConditions.length > 0 ? (
                 winConditions.map((conditionData, index) => {
-                    const condition = typeof conditionData.condition === 'string'
-                        ? JSON.parse(conditionData.condition)
-                        : conditionData.condition;
-                    console.log("conditionData.condition: ", conditionData.condition);
-                    console.log("Typeof condition: ", typeof condition)
-                    console.log("Typeof conditionData: ", typeof conditionData === 'string')
-                    
-                    
+                    //conditionData is a placeholder name for row (from DB)
+                    //condition must be parsed from text, other two available immediately
+                    const condition = JSON.parse(conditionData.condition);
+                    const id = conditionData.id;
+                    const is_active = conditionData.is_active;
+                    console.log(id)
+                                        
                     return (
                         <li key={index}>
                             <div className='condition-grid'>
@@ -118,6 +136,10 @@ return (
                                     </div>
                                 ))}
                             </div>
+                            <button onClick={() => handleToggleCondition(id)}>
+                                {is_active ? "Deativate" : "Activate"}
+                            </button>
+                            <button onClick={() => handleDeleteCondition(id)}>Delete</button>
                         </li>
                     )
                 })

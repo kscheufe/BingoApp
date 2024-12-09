@@ -41,7 +41,13 @@ function App() {//starting point for the app
         fetchCards();
 
       })
-      .catch(error => console.error("error calling number - app.js: ", error));
+      .catch(error => {
+        if (error.response && error.response.status == 409) {
+          alert(`${error.response.data.num} already called`);
+        }
+        //else {
+          console.error("error calling number - app.js: ", error)//}
+      });
     //reset the input value
     setInputValue('');
   } 

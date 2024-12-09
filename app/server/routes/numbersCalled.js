@@ -21,7 +21,10 @@ module.exports = function(db) {
         db.run('INSERT INTO numbers_called (number) VALUES (?)', [num], function(err) {
             if (err) {
                 if (err.code === 'SQLITE_CONSTRAINT') {
-                    return res.status(409).json({ error: "Number already exists"});
+                    return res.status(409).json({
+                        error: "Number already exists",
+                        num: num
+                        }); //for alert logging (optional)
                 }
                 
                 console.log("error in post");

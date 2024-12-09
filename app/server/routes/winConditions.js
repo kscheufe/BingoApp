@@ -22,6 +22,9 @@ module.exports = function(db) {
 
         db.run('INSERT INTO win_conditions (condition, is_active) VALUES (?, ?)', [condition, is_active], function(err) {
             if (err) {
+                if (err.code === 'SQLITE_CONSTRAINT') {
+                    return res.status(409).json({error: "win condition already exists."});
+                }
                 return res.status(500).json({error: err.message });
             }
             //only this card will need to be done, but for now check all
@@ -31,6 +34,9 @@ module.exports = function(db) {
                 //respond to the front-end, only needs winFound as front end will trigger rerender on response
                 res.json({winFound});
             })
+            .catch(error => {
+                res.status(500).json({ error: error.message });
+            });
             
         });
     });

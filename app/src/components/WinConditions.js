@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+/*
+    Need to add:
+        - styling
+        - It also appears to be getting called many many times, look into that
+            - Tested - Because of React Strict Mode, won't be an issue in prod
+*/
+
 const defaultWinCondition = [
     [false, false, false, false, false],
     [false, false, false, false, false],
@@ -55,8 +62,11 @@ const WinConditionsComponent = () => {
         })
         .catch(error => 
         {
+            if (error.response && error.response.status === 409) {
+                // Check if error is a 409 (Conflict) for duplicate entry
+                alert("Win Condition Already Exists");
+            }
             console.error(`Error adding win condition - WinConditions.js `, error);
-            alert("Win Condition Already Exists");//not guaranteed to be the case, temporary
         });
     };
 

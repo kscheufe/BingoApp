@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import "./WinConditions.css";
 /*
     Need to add:
         - styling
@@ -97,20 +97,20 @@ return (
 
         {/* If editing, show the grid for user to configure the new condition */}
         {isEditing && (
-            <div className='condition-editing'>
+            <div >
                 <h3>Edit Win Condition</h3>
-                <div className='condition-grid'>
+                <div className='bingo-card'>
                     {currentCondition.map((row, rowIndex) => (
-                        <div key = {rowIndex} className = "condition-row">
+                        <div key = {rowIndex} className = "card-row">
                             {row.map((value, colIndex) => (
-                                <span
-                                    key={colIndex}
-                                    className={`condition-cell ${value ? 'true' : 'false'}`}
+                                <button
+                                    key={`${rowIndex}-${colIndex}`}
+                                    className={`condition-button ${value ? 'marked' : ''}`}
                                     onClick={() => handleToggleCell(rowIndex, colIndex)} //toggle on click
                                     style={{cursor: 'pointer'}}//change cursor for interactivity
                                 >
-                                    {value ? 'T' : 'F'} {/* Display t or f */}
-                                </span>
+                                    {value ? '' : ''} {/* Display t or f */}
+                                </button>
                             ))}
                         </div>
                     ))}
@@ -143,9 +143,10 @@ return (
                                 {condition.map((row, rowIndex) => (
                                     <div key={rowIndex} className='condition-row'>
                                         {row.map((value, colIndex) => (
-                                            <span key={colIndex} className={`condition-cell ${value ? 'true' : 'false'}`}>
-                                                {value ? 'T' : 'F'}
-                                            </span>
+                                            <div 
+                                                key={colIndex} 
+                                                className={`card-cell ${value ? 'marked' : ''}`}
+                                            />
                                         ))}
                                     </div>
                                 ))}

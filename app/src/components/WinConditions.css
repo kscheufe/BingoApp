@@ -24,6 +24,10 @@
     background-color: chartreuse;  /* Color for marked cells */
 }
 
+.inactive {
+    background-color: #ccc;
+}
+
 .cell-button {
     width: 100%;
     height: 100%;

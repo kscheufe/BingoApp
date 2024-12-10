@@ -133,7 +133,7 @@ return (
                                         
                     return (
                         <li key={index}>
-                            <div className='condition-grid'>
+                            <div className={`condition-grid ${is_active ? '' : 'inactive'}`}>
                                 {//console.log(condition)
                                     //id = condition.id;
                                     //condition = condition.condition

@@ -1,15 +1,15 @@
-.bingo-card {
+.bingo-card, .condition-grid {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
 }
 
-.card-row {
+.card-row, .condition-row {
     display: flex;
 }
 
-.card-cell {
+.card-cell, .condition-button {
     width: 40px;        /* Adjust size */
     height: 40px;       /* Ensure height matches width */
     display: flex;
@@ -41,17 +41,6 @@
 
 .condition-row {
     display: flex;
-}
-
-.condition-cell {
-    width: 40px;     /* Adjust size */
-    height: 40px;    /* Ensure square shape */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    margin: 0 1px;
 }
 
 .marked {

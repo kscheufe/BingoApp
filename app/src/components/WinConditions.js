@@ -129,10 +129,19 @@ return (
                     const condition = JSON.parse(conditionData.condition);
                     const id = conditionData.id;
                     const is_active = conditionData.is_active;
-                    console.log(id)
                                         
                     return (
-                        <li key={index}>
+                        <li key={index} className={`win-condition-card ${is_active ? '' : 'inactive'}`}>
+                            <div className='card-header'>
+                                <button onClick={() => handleToggleCondition(id)}>
+                                    {is_active ? "🔓" : "🔒"}
+                                </button>
+                                <span className='win-condition-id'>Win Condition {id}</span>
+                                <button 
+                                    className='delete-button'
+                                    onClick={() => handleDeleteCondition(id)}
+                                >🗑️</button>
+                            </div>
                             <div className={`condition-grid ${is_active ? '' : 'inactive'}`}>
                                 {//console.log(condition)
                                     //id = condition.id;
@@ -151,10 +160,7 @@ return (
                                     </div>
                                 ))}
                             </div>
-                            <button onClick={() => handleToggleCondition(id)}>
-                                {is_active ? "Deativate" : "Activate"}
-                            </button>
-                            <button onClick={() => handleDeleteCondition(id)}>Delete</button>
+                            
                         </li>
                     )
                 })

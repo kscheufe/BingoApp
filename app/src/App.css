@@ -83,6 +83,12 @@ input:focus {
   outline: none;
 }
 
+
+
+.App-header {
+  background-color: gray;
+}
+
 /*default
 .App {
   text-align: center;

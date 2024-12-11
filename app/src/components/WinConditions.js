@@ -133,7 +133,10 @@ return (
                     return (
                         <li key={index} className={`win-condition-card ${is_active ? '' : 'inactive'}`}>
                             <div className='card-header'>
-                                <button onClick={() => handleToggleCondition(id)}>
+                                <button 
+                                    className={"toggle-button"}
+                                    onClick={() => handleToggleCondition(id)}
+                                >
                                     {is_active ? "🔓" : "🔒"}
                                 </button>
                                 <span className='win-condition-id'>Win Condition {id}</span>

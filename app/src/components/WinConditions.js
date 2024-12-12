@@ -4,6 +4,7 @@ import "./WinConditions.css";
 /*
     Need to add:
         - styling
+        - sort WC? by id, activity, whatever
         - It also appears to be getting called many many times, look into that
             - Tested - Because of React Strict Mode, won't be an issue in prod
 */
@@ -93,13 +94,14 @@ return (
         <h2>Win Conditions</h2>
 
         {/* Button to start adding a new win condition */}
-        <button onClick={startEditing}>{isEditing ? "Cancel" : "Add Win Condition"}</button>
+        <button onClick={startEditing}>{isEditing ? "Cancel" : "Add"}</button>
 
         {/* If editing, show the grid for user to configure the new condition */}
         {isEditing && (
             <div >
-                <h3>Edit Win Condition</h3>
+                
                 <div className='bingo-card'>
+                <h3>Toggle Cells</h3>    
                     {currentCondition.map((row, rowIndex) => (
                         <div key = {rowIndex} className = "card-row">
                             {row.map((value, colIndex) => (
@@ -115,12 +117,12 @@ return (
                         </div>
                     ))}
                 </div>
-                <button onClick={handleAddCondition}>Submit</button>
+                <button onClick={handleAddCondition}>Confirm</button>
             </div>
         )}
 
-        {/* List of win conditions */}
-        <h3>Existing Win Conditions</h3>
+        {/* List of win conditions 
+        <h3>Existing Win Conditions</h3> */}
         <ul>
             {winConditions.length > 0 ? (
                 winConditions.map((conditionData, index) => {
@@ -139,7 +141,7 @@ return (
                                 >
                                     {is_active ? "🔓" : "🔒"}
                                 </button>
-                                <span className='win-condition-id'>Win Condition {id}</span>
+                                <span className='win-condition-id'>WC {id}</span>
                                 <button 
                                     className='delete-button'
                                     onClick={() => handleDeleteCondition(id)}

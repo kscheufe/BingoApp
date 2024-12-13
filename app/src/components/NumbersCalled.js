@@ -1,6 +1,13 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import axios from 'axios';
+import './NumbersCalled.css';
 
+/*
+    - style
+        - sort by B I N G O?
+        - fix spacing/padding for mobile
+        - way down the line voice call numbers?
+*/
 const NumbersCalledComponent = forwardRef((props, ref) => {
     const [allNumbers, setAllNumbers] = useState([]);
 
@@ -54,19 +61,54 @@ const NumbersCalledComponent = forwardRef((props, ref) => {
         .catch(error => console.error('Error deleting all numbers - numbersCalledComponent', error));
     };
 
+    //for optional different execution using a different db setup
+    
+    const getBingoNumber = (letter, rowIndex) => {
+        switch (letter) {
+          case 'B': return rowIndex + 1;
+          case 'I': return rowIndex + 16;
+          case 'N': return rowIndex + 31;
+          case 'G': return rowIndex + 46;
+          case 'O': return rowIndex + 61;
+          default: return null;
+        }
+    };
+
+    function addNumber(number) {
+        axios.post(`/api/numbers-called/${number}`)
+            .then(response => {
+                console.log('Number called: ', response.data);
+                //update list of called numbers, DOESN'T EXIST in frontend YET
+                props.fetchRecentNumbers();
+                fetchNumbers();
+            })
+            .catch(error => {
+                if (error.response && error.response.status == 409) {
+                alert(`${error.response.data.num} already called`);
+                }//shouldn't happen here as the button shouldn't display if not called
+                //else {
+                console.error("error calling number - app.js: ", error)//}
+            });
+    } //*/
+
+    function deleteNumberByValue(number) {
+        axios.delete(`/api/numbers-called/deleteByValue/${number}`)
+        .then(response => {
+            console.log(`Deleted ${number}`);
+            fetchNumbers();//refresh the list after deletion
+            props.fetchRecentNumbers();//trigger refresh for recent numbers in app.js
+        })
+        .catch(error => console.error(`Error deleting ${number} - NumbersCalledComponent `, error));
+        
+    };
+      
+
     return (
         <div className="numbers-called-component">
             <h2>Numbers Called</h2>
-            
-            {/* Delete all numbers button */}
-            {allNumbers.length > 0 ? (
-                <button onClick={deleteAllNumbers} className='delete-all-button'>
-                    Delete AllNumbers
-                </button>
-            ) : (null)}
 
-            {/* List of Numbers Called */}
-            <div className="numbers-list">
+            {/* List of Numbers Called /}
+            <div className="numbers-table">
                 {allNumbers.length > 0 ? (
                     <ul>
                         {allNumbers.map((number) => (
@@ -76,7 +118,7 @@ const NumbersCalledComponent = forwardRef((props, ref) => {
                                     onClick={() => deleteNumber(number.id)} 
                                     className='delete-button'
                                 >
-                                    Delete
+                                    🗑️
                                 </button>
                             </li>
                         ))}
@@ -85,7 +127,59 @@ const NumbersCalledComponent = forwardRef((props, ref) => {
                     <p>No numbers called yet.</p>
                 )} 
             </div>
-            {/* You can add a refresh button if you want <button onClick={fetchNumbers}>Refresh Numbers</button>*/}
+
+            {/* */}
+            <table className="bingo-card">
+            <tbody>
+                <tr>
+                    <td>B</td>
+                    <td>I</td>
+                    <td>N</td>
+                    <td>G</td>
+                    <td>O</td>
+                </tr>
+                {Array.from({ length: 15 }).map((_, rowIndex) => (
+                <tr key={rowIndex}>
+                    {['B', 'I', 'N', 'G', 'O'].map((letter, colIndex) => {
+                    // Calculate the number for each cell based on the row and column
+                    const number = getBingoNumber(letter, rowIndex);
+                    const isCalled = allNumbers.some(item => item.number === number); // Check if the number has been called
+
+                    return (
+                        <td key={colIndex}>
+                        {// Render Add or Delete button depending on whether the number exists
+                        }
+                        {!isCalled ? (
+                            <button
+                            className="bingo-button add"
+                            onClick={() => addNumber(number)} // Call addNumber when clicked
+                            >
+                            {number}
+                            </button>
+                        ) : (
+                            <button
+                            className="bingo-button delete"
+                            onClick={() => deleteNumberByValue(number)} // Call deleteNumber when clicked
+                            >
+                            {number}
+                            </button>
+                        )}
+                        </td>
+                    );
+                    })}
+                </tr>
+                ))}
+            </tbody>
+            </table>
+            {/**/}
+            {/* Delete all numbers button */}
+            {allNumbers.length > 0 ? (
+                <div className='clear-button-container'>
+                    <button onClick={deleteAllNumbers} className='delete-all-button'>
+                        Clear
+                    </button>
+                </div>
+            ) : (null)}
             
         </div>
     );

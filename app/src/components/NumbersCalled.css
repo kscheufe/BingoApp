@@ -1,0 +1,42 @@
+.delete-button {
+    width: 40px;
+    height: 40px;
+}
+
+.delete-all-button {
+    height: 40px;
+    width: 60px;
+    padding: 0;
+}
+
+/* add back in when app.js is styled
+.clear-button-container {
+    display: flex;
+    justify-content: flex-end;
+}*/ 
+
+.bingo-button {
+    height: 35px;
+    width: 35px;
+    padding: 0;
+}
+
+.bingo-card  {
+    padding: 0;
+}
+
+.add {
+    background-color: #2e2e2e;
+    border: 1px solid #ccc;
+    margin: 0 1px;
+}
+
+.delete {
+    background-color: rgba(128, 255, 0, 0.685);
+}
+
+td {
+    text-align: center;
+    vertical-align: middle;
+}
+

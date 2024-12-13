@@ -4,7 +4,11 @@ import "./WinConditions.css";
 /*
     Need to add:
         - styling
+            - Top Header should be persistent, others scrollable
+            - Mess around with "Win Conditions" title and add button?
+            - Maybe make the lock button a toggle slider
         - sort WC? by id, activity, whatever
+        - Persistent WC for lines?
         - It also appears to be getting called many many times, look into that
             - Tested - Because of React Strict Mode, won't be an issue in prod
 */

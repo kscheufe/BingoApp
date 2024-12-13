@@ -64,6 +64,23 @@ module.exports = function(db) {
         });
     });
 
+    //delete a number by value, different implementation
+    router.delete('/deleteByValue/:value', (req, res) => {
+        const num = req.params.value;
+        db.run('DELETE FROM numbers_called WHERE number = ?', [num], function(err) {
+            console.log("delete received by server: numberCalled num: " + num);
+            if (err) {
+                return res.status(500).json({ error: err.message});
+            }
+            if (this.changes === 0) {//should never happen, only way to call will be through button press
+                return res.status(404).json({error: "Id not found"});
+            }
+            //update card boolean arrays - rerender, no new wins found
+            updateCardBooleanArrays(db);
+            res.json({ message: num + " deleted successfully"});
+        });
+    });
+
     //delete all numbers (new game) - same as above
     router.delete('/deleteAll', (req, res) => {
         db.run('DELETE from numbers_called', [], function(err) {

@@ -97,3 +97,9 @@ ul {
     padding: 0; 
     margin: 0; 
 }
+
+/* add back in when app.js is styled * /
+.addCancelButton {
+    display: flex;
+    justify-content: flex-end;
+}/**/ 

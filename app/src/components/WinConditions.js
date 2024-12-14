@@ -98,8 +98,9 @@ return (
         <h2>Win Conditions</h2>
 
         {/* Button to start adding a new win condition */}
-        <button onClick={startEditing}>{isEditing ? "Cancel" : "Add"}</button>
-
+        <div className='addCancelButton'>
+            <button onClick={startEditing}>{isEditing ? "Cancel" : "Add"}</button>
+        </div>
         {/* If editing, show the grid for user to configure the new condition */}
         {isEditing && (
             <div >

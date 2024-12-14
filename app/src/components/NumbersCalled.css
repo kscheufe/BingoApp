@@ -22,7 +22,7 @@
 }
 
 .bingo-card  {
-    padding: 0;
+    max-width: 240px;
 }
 
 .add {

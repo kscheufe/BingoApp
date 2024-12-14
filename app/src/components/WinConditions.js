@@ -95,7 +95,7 @@ const WinConditionsComponent = () => {
 
 return (
     <div className='win-conditions-component'>
-        <h2>Win Conditions</h2>
+        {/*<h2>Win Conditions</h2>*/}
 
         {/* Button to start adding a new win condition */}
         <div className='addCancelButton'>

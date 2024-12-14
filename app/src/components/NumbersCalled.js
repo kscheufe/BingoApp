@@ -105,7 +105,7 @@ const NumbersCalledComponent = forwardRef((props, ref) => {
 
     return (
         <div className="numbers-called-component">
-            <h2>Numbers Called</h2>
+            {/*<h2>Numbers Called</h2>*/}
 
             {/* List of Numbers Called /}
             <div className="numbers-table">

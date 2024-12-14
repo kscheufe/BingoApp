@@ -88,8 +88,12 @@ input:focus {
 }
 
 .active-component-button {
-  background-color: rgba(128, 255, 0, 0.685);
+  background-color: rgba(128, 255, 0, 0.582);
 }
+.active-component-button:hover {
+  background-color: rgb(81, 162, 0);
+}
+
 /*default
 .App {
   text-align: center;

@@ -138,8 +138,8 @@ function App() {//starting point for the app
 
         {/* Scrollable naviagtion for components (will be swipeable in app) */}
         <div className="navigation">
-          <button className= {getButtonClass('bingo')} onClick={() => handleComponentChange('bingo')}>Bingo Cards</button>
           <button className= {getButtonClass('numbersCalled')} onClick={() => handleComponentChange('numbersCalled')}>Numbers Called</button>
+          <button className= {getButtonClass('bingo')} onClick={() => handleComponentChange('bingo')}>Bingo Cards</button>
           <button className= {getButtonClass('winConditions')} onClick={() => handleComponentChange('winConditions')}>Win Conditions</button>
         </div>
       </header>

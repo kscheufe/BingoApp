@@ -102,6 +102,10 @@ function App() {//starting point for the app
     }
   }
 
+  const getButtonClass = (component) => {
+    return activeComponent === component ? 'active-component-button' : '';
+  }
+
   //add a numbers called component
   return (
     <div className="App">
@@ -134,9 +138,9 @@ function App() {//starting point for the app
 
         {/* Scrollable naviagtion for components (will be swipeable in app) */}
         <div className="navigation">
-          <button onClick={() => handleComponentChange('bingo')}>Bingo Cards</button>
-          <button onClick={() => handleComponentChange('numbersCalled')}>Numbers Called</button>
-          <button onClick={() => handleComponentChange('winConditions')}>Win Conditions</button>
+          <button className= {getButtonClass('bingo')} onClick={() => handleComponentChange('bingo')}>Bingo Cards</button>
+          <button className= {getButtonClass('numbersCalled')} onClick={() => handleComponentChange('numbersCalled')}>Numbers Called</button>
+          <button className= {getButtonClass('winConditions')} onClick={() => handleComponentChange('winConditions')}>Win Conditions</button>
         </div>
       </header>
 

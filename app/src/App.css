@@ -83,12 +83,13 @@ input:focus {
   outline: none;
 }
 
-
-
 .App-header {
   background-color: gray;
 }
 
+.active-component-button {
+  background-color: rgba(128, 255, 0, 0.685);
+}
 /*default
 .App {
   text-align: center;

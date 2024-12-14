@@ -21,7 +21,7 @@
 }
 
 .marked {
-    background-color: chartreuse;  /* Color for marked cells */
+    background-color: rgba(128, 255, 0, 0.685);  /* Color for marked cells */
 }
 
 .cell-button {

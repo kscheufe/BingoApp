@@ -56,18 +56,19 @@ const BingoCardComponent = forwardRef((props, ref) => {
     return (
         <div className="bingoCardContainer">
             <div>Card Label</div>
-            <div className='bingo-header'>
-                {['B', 'I', 'N', 'G', 'O'].map((letter, index) => (
-                    <div key={`header-${index}`} className='header-cell'>
-                        {letter}    
-                    </div>
-                ))}
-            </div>
+            
             <div className='bingo-card'>
-                {Array.from({ length: 5 }).map((_, colIndex) => (
-                    <div key={`col-${colIndex}`} className="card-column">
-                        {Array.from({ length: 5 }).map((_, rowIndex) => {
-                            const num = bingoCard.getCardNumbers()[rowIndex][colIndex];
+                <div className='bingo-header'>
+                    {['B', 'I', 'N', 'G', 'O'].map((letter, index) => (
+                        <div key={`header-${index}`} className='header-cell'>
+                            {letter}    
+                        </div>
+                    ))}
+                </div>
+                {Array.from({ length: 5 }).map((_, rowIndex) => (
+                    <div key={`row-${rowIndex}`} className="card-row">
+                        {Array.from({ length: 5 }).map((_, colIndex) => {
+                            const num = bingoCard.getCardNumbers()[colIndex][rowIndex];
                             return (
                                 <div 
                                     key={`${rowIndex}-${colIndex}`}

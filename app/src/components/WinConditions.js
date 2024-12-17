@@ -100,9 +100,13 @@ return (
         {/* Button to start adding a new win condition */}
         <div className='addCancelButton'>
             <button onClick={startEditing}>{isEditing ? "Cancel" : "Add"}</button>
+            {isEditing && (
+                <button onClick={handleAddCondition}>Confirm</button>
+            )}
         </div>
         {/* If editing, show the grid for user to configure the new condition */}
         {isEditing && (
+            
             <div >
                 
                 <div className='bingo-card'>
@@ -122,7 +126,7 @@ return (
                         </div>
                     ))}
                 </div>
-                <button onClick={handleAddCondition}>Confirm</button>
+                
             </div>
         )}
 

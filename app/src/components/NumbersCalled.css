@@ -40,6 +40,10 @@
     background-color: rgba(128, 255, 0, 0.685);
 }
 
+.delete:hover {
+    background-color: rgb(81, 162, 0);   
+}
+
 td {
     text-align: center;
     vertical-align: middle;

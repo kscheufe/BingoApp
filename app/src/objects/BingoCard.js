@@ -6,7 +6,14 @@ import './BingoCard.css'; // For styling the card
 
 class BingoCard {
     constructor() {
-        this.numbers = this.generateCardNumbers();//change to either manual input or recognition model
+        this.numbers = [
+                    [1, 16, 31, 46, 61],
+                    [2, 17, 32, 47, 62],
+                    [3, 18, 0, 48, 63],
+                    [4, 19, 34, 49, 64],
+                    [5, 20, 35, 50, 65],
+                ];
+        //this.generateCardNumbers();//change to either manual input or recognition model
         //boolean array
         this.bools = Array(5).fill(null).map(() => Array(5).fill(false));
         this.bools[2][2] = true;//for the free space
@@ -41,7 +48,7 @@ class BingoCard {
         {
             for (let j = 0; j < 5; j++)
             {
-                numbers[i][j] = Math.floor(Math.random() * 15) + 1 + i*15;//i*15 for 1-15 in b, 16-30 in i, etc.
+                numbers[j][i] = Math.floor(Math.random() * 15) + 1 + i*15;//i*15 for 1-15 in b, 16-30 in i, etc.
             }   
         }
         numbers[2][2] = "FREE"; //center tile

@@ -43,10 +43,51 @@ const BingoCardComponent = () => {
         setBingoCard({ ...bingoCard, numbers: updatedNumbers });
     }
 
+    const submitCard = () => {
+        //validate form
+        let valid = true;
+        let numbers = [];
+        bingoCard.numbers.forEach((row, rowIndex) => {
+            row.forEach((value, colIndex) => {
+                const minValue = colIndex * 15 + 1;
+                const maxValue = (colIndex + 1) * 15;
+
+                //check for invalid cells
+                if (
+                    !(rowIndex == 2 && colIndex == 2) && //skip middle cell
+                    (
+                        value == null || //check null
+                        value < minValue || //check number fits range
+                        value > maxValue ||
+                        numbers.includes(value) //check number is unique
+                    )
+                ) {
+                    valid = false;
+                    alert("invalid bingo card entry");
+                    console.log("invalid bingo card entry");
+                    return;
+                }
+                else 
+                {
+                    numbers.push(value);
+                }
+            })
+        })
+
+        //submit actions
+        if (valid)
+        {
+            console.log("submit filed");
+            setBingoCard(new BingoCard());
+            setAdding(false);
+        }
+    }
+
     return (
         <div className="bingoCardContainer">
             <div className='addCancelButton'>
                 <button onClick={toggleAdding}>{adding ? "Cancel" :"Add"}</button>
+                {adding ? (<button onClick={submitCard}>Submit</button>) : (null) }
             </div>
 
             {adding && (

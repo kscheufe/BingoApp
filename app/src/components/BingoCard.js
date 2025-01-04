@@ -1,21 +1,9 @@
 import React, { useState } from 'react';
 import BingoCard from '../objects/BingoCard';
 import "./BingoCard.css";
+import axios from 'axios';
 
-/*
-
-
-*/
-
-
-
-//soon just a file for displaying bingo cards and adding new ones
-//___--------------------------------------------
-
-
-//special declaration for forward reference from the app.js parent
 const BingoCardComponent = () => {
-    //import winConditionsList as a prop
     
     const [bingoCard, setBingoCard] = useState(new BingoCard());
     const [bingoCardList, setBingoCardList] = useState(bingoCard);
@@ -77,9 +65,16 @@ const BingoCardComponent = () => {
         //submit actions
         if (valid)
         {
+            let card = JSON.stringify(bingoCard);
+            axios.post('/api/bingo-cards/', {card, is_active: true})
+            .then(response => {
+                console.log('added');
+                setBingoCard(new BingoCard());
+                setAdding(false);
+            })
+            .catch()
             console.log("submit filed");
-            setBingoCard(new BingoCard());
-            setAdding(false);
+            
         }
     }
 

@@ -23,6 +23,9 @@ async function updateCardBooleanArrays(db) {
         //extract called numbers from each db row
         const calledNumbers = calledNumbersRows.map(row => row.numbers);
 
+        console.log("Called numbers: " + calledNumbers + " end");
+        if (calledNumbers == null) return;
+
         //get all active bingo cards using another promise
         const cardRows = await new Promise((resolve, reject) => {
             db.all('SELECT * FROM bingo_cards WHERE is_active = 1', [], (err, rows) => {
@@ -36,11 +39,12 @@ async function updateCardBooleanArrays(db) {
             return new Promise((resolveUpdate, rejectUpdate) => {
                 //extract card data = {numbers: [...], bools:[...]}
                 const cardData = JSON.parse(card.card);
+                console.log(cardData.numbers)
                 //update bool array
                 cardData.bools = updateBoolArray(cardData.numbers, calledNumbers);
 
                 //update db
-                db.run('UPDATE bingo_cards SET card ? WHERE id = ?', 
+                db.run('UPDATE bingo_cards SET card = ? WHERE id = ?', 
                     [JSON.stringify(cardData), card.id],
                     (err) => { 
                         if (err) { 
@@ -68,13 +72,13 @@ async function updateCardBooleanArrays(db) {
 }
 
 function updateBoolArray(cardNumbers, calledNumbers) {
-    return cardNumbers.map((number, index) => {
-        if (index == 12)//free square
-        {
-            return true;
-        }
-        return calledNumbers.includes(number);//check for called status
-    });
+    return cardNumbers.map((row, rowIndex) =>
+        row.map((number, colIndex) => {
+            if (rowIndex == 2 && colIndex == 2)//check free square
+            { return true; }
+            return calledNumbers.includes(number);//check Called status
+        })
+    );
     //creates an array of the same length as cardNumbers (25), then populates
     //it with true/false values depending on if the number exists in calledNumbers
 }
@@ -102,7 +106,7 @@ async function checkWinConditions(db) {//returns -1 or id of winning card
 
         //check each card against each win condition
         for (const card of bingoCardsRows) {
-            const bools = JSON.parse(card.card.bools);
+            const bools = JSON.parse(card.card).bools;
 
             for (const winCondition of winConditions) {
                 if (checkWin(bools, winCondition)) {

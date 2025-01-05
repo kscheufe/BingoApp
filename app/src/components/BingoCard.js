@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BingoCard from '../objects/BingoCard';
 import "./BingoCard.css";
 import axios from 'axios';
@@ -6,9 +6,12 @@ import axios from 'axios';
 const BingoCardComponent = () => {
     
     const [bingoCard, setBingoCard] = useState(new BingoCard());
-    const [bingoCardList, setBingoCardList] = useState(bingoCard);
+    const [bingoCardList, setBingoCardList] = useState([]);
     const [adding, setAdding] = useState(false);
 
+    useEffect(() => {
+        fetchBingoCards(); //fetch cards when component mounts
+    }, []);
 
     const toggleAdding = () =>
     {
@@ -31,7 +34,16 @@ const BingoCardComponent = () => {
         setBingoCard({ ...bingoCard, numbers: updatedNumbers });
     }
 
-    const submitCard = () => {
+    const fetchBingoCards = () => {
+        axios.get('/api/bingo-cards')
+        .then(response => {
+            setBingoCardList(response.data);
+        })
+        .catch(error => console.error("Error fetching bingo cards - BC component", error));
+    }
+
+    const submitCard = (event) => {
+        event.preventDefault();
         //validate form
         let valid = true;
         let numbers = [];
@@ -69,10 +81,11 @@ const BingoCardComponent = () => {
             axios.post('/api/bingo-cards/', {card, is_active: true})
             .then(response => {
                 console.log('added');
+                fetchBingoCards();
                 setBingoCard(new BingoCard());
                 setAdding(false);
             })
-            .catch()
+            .catch(error => console.error("error adding card - BC component", error))
             console.log("submit filed");
             
         }
@@ -128,7 +141,10 @@ const BingoCardComponent = () => {
                     bingoCardList.map((card, index) => {
                         //card is a placeholder name for row (from DB)
                         //data must be parsed from text, other two available immediately
+                        
                         const cardData = JSON.parse(card.card);
+                        console.log(cardData);
+                        //console.log(card);
                         const id = card.id; //card.___ is db names
                         const is_active = card.is_active;
                     return (

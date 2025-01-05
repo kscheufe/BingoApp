@@ -24,12 +24,12 @@ module.exports = function(db) {
                 return res.status(500).json({ error: err.message});
             } 
             //only really need to update this one cards bools and check it, but for now do all
-           /* updateCardBooleanArrays(db)
+            updateCardBooleanArrays(db)
             .then(checkWinConditions(db))
             .then(winFound => {
                 //return the id of the new card, and the winFound number (the winning card's index or -1)
                 res.json({winFound: winFound}); 
-            });*/
+            });
         });
     });
 

@@ -141,9 +141,9 @@ const BingoCardComponent = () => {
                     bingoCardList.map((card, index) => {
                         //card is a placeholder name for row (from DB)
                         //data must be parsed from text, other two available immediately
-                        
                         const cardData = JSON.parse(card.card);
                         console.log(cardData);
+
                         //console.log(card);
                         const id = card.id; //card.___ is db names
                         const is_active = card.is_active;
@@ -177,13 +177,13 @@ const BingoCardComponent = () => {
                         {Array.from({ length: 5 }).map((_, rowIndex) => (
                             <div key={`row-${rowIndex}`} className="card-row">
                                 {Array.from({ length: 5 }).map((_, colIndex) => {
-                                    const num = bingoCard.getCardNumbers()[colIndex][rowIndex];
+                                    const num = bingoCard.getCardNumbers()[rowIndex][colIndex];
                                     return (
                                         <div 
                                             key={`${rowIndex}-${colIndex}`}
                                             className={`card-cell ${bingoCard.getCardBools()[rowIndex][colIndex] ? 'marked' : ''}`}
                                         >
-                                            {num}
+                                            {num == 0 ? 'Free' : num}
                                         </div>
                                     );
                                 })}

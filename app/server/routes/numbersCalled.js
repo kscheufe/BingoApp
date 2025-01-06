@@ -36,6 +36,7 @@ module.exports = function(db) {
             updateCardBooleanArrays(db)
                 .then(() => checkWinConditions(db))//chain the promises
                 .then(winFound => {
+                    console.log(winFound + "win found in numbersCalled.js")
                     //respond to the front-end, returning the id of the new number (for delete), and winFound - which will be the first winning card's id or -1 if no win found
                     res.json({id: numberId, winFound});
                     //also return the winCondition id for highlighting?

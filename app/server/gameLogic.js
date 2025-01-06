@@ -21,10 +21,7 @@ async function updateCardBooleanArrays(db) {
         });
 
         //extract called numbers from each db row
-        const calledNumbers = calledNumbersRows.map(row => row.numbers);
-
-        console.log("Called numbers: " + calledNumbers + " end");
-        if (calledNumbers == null) return;
+        const calledNumbers = calledNumbersRows.map(row => row.number);
 
         //get all active bingo cards using another promise
         const cardRows = await new Promise((resolve, reject) => {
@@ -39,10 +36,9 @@ async function updateCardBooleanArrays(db) {
             return new Promise((resolveUpdate, rejectUpdate) => {
                 //extract card data = {numbers: [...], bools:[...]}
                 const cardData = JSON.parse(card.card);
-                console.log(cardData.numbers)
                 //update bool array
                 cardData.bools = updateBoolArray(cardData.numbers, calledNumbers);
-
+                
                 //update db
                 db.run('UPDATE bingo_cards SET card = ? WHERE id = ?', 
                     [JSON.stringify(cardData), card.id],
@@ -129,9 +125,8 @@ function checkWin(cardBools, winConditionBools)
 {
     //syntax: accumulator, currBool, index
     //logic: for each element, evaluate currBool (0 or 1), shift it i bits left, and add to accumulator
-    const cardBinary = cardBools.reduce((acc, bool, i) => acc | (bool << i), 0);
-    const winConditionBinary = winConditionBools.reduce((acc, bool, i) => acc | (bool << i), 0);
-
+    const cardBinary = cardBools.flat().reduce((acc, bool, i) => acc | (bool << i), 0);
+    const winConditionBinary = winConditionBools.flat().reduce((acc, bool, i) => acc | (bool << i), 0);
     //use bitwise checking for fun
     return (cardBinary & winConditionBinary) === winConditionBinary;
 }

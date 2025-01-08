@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import BingoCard from '../objects/BingoCard';
 import "./BingoCard.css";
 import axios from 'axios';
 
-const BingoCardComponent = () => {
+const BingoCardComponent = forwardRef((props, ref) => {
     
     const [bingoCard, setBingoCard] = useState(new BingoCard());
     const [bingoCardList, setBingoCardList] = useState([]);
@@ -12,6 +12,12 @@ const BingoCardComponent = () => {
     useEffect(() => {
         fetchBingoCards(); //fetch cards when component mounts
     }, []);
+
+    useImperativeHandle(ref, () => ({
+        refreshCards() {//name of method to call in parent (app.js)
+            fetchBingoCards();
+        }
+    }))
 
     const toggleAdding = () =>
     {
@@ -142,8 +148,9 @@ const BingoCardComponent = () => {
                         //card is a placeholder name for row (from DB)
                         //data must be parsed from text, other two available immediately
                         const cardData = JSON.parse(card.card);
-                        console.log(cardData);
-
+                        //cardData.numbers
+                        //cardData.bools
+                        
                         //console.log(card);
                         const id = card.id; //card.___ is db names
                         const is_active = card.is_active;
@@ -195,6 +202,6 @@ const BingoCardComponent = () => {
             </ul>
         </div>
     )
-};
+});
 
 export default BingoCardComponent;

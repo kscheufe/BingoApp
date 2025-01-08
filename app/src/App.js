@@ -12,6 +12,7 @@ function App() {//starting point for the app
   const [recentNumbers, setRecentNumbers] = useState([]);//for the list of three recently called numbers
   //const [allNumbers, setAllNumbers] = useState([]); //not sure if actually needed in this component
   const numbersCalledRef = useRef(null);
+  const bingoCardsRef = useRef(null);
 
   
   useEffect(() => {
@@ -37,8 +38,11 @@ function App() {//starting point for the app
         if (numbersCalledRef.current) {
           numbersCalledRef.current.refreshNumbers();//trigger refresh in NumbersCalledComponent
         }
-        //redraw cards
-        fetchCards();
+        if (bingoCardsRef.current) {
+          bingoCardsRef.current.refreshCards();//trigger refresh in BingoCardComponent
+        }
+        //redraw cards - from old front-end app
+        //fetchCards();
 
       })
       .catch(error => {
@@ -88,7 +92,9 @@ function App() {//starting point for the app
   const renderActiveComponent = () => {
     switch (activeComponent) {
       case 'bingo':
-        return <BingoCardComponent />
+        return <BingoCardComponent 
+          ref={bingoCardsRef}
+        />
       case 'numbersCalled':
         return <NumbersCalledComponent 
           ref={numbersCalledRef}

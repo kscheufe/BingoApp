@@ -172,16 +172,14 @@ const BingoCardComponent = () => {
                             ))}
                         </div>
 
-                        {/** will need to be replicated for each card in cardsList */}
-
                         {Array.from({ length: 5 }).map((_, rowIndex) => (
                             <div key={`row-${rowIndex}`} className="card-row">
                                 {Array.from({ length: 5 }).map((_, colIndex) => {
-                                    const num = bingoCard.getCardNumbers()[rowIndex][colIndex];
+                                    const num = cardData.numbers[rowIndex][colIndex];
                                     return (
                                         <div 
                                             key={`${rowIndex}-${colIndex}`}
-                                            className={`card-cell ${bingoCard.getCardBools()[rowIndex][colIndex] ? 'marked' : ''}`}
+                                            className={`card-cell ${cardData.bools[rowIndex][colIndex] == true ? 'marked' : ''}`}
                                         >
                                             {num == 0 ? 'Free' : num}
                                         </div>

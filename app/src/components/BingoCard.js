@@ -27,11 +27,30 @@ const BingoCardComponent = forwardRef((props, ref) => {
     }
 
     const handleToggleCard = (id) => {
-        console.log('toggle ' + id)
+        axios.post(`/api/bingo-cards/toggle/${id}`)
+        .then(response => {
+            console.log("toggled card " + id);
+            fetchBingoCards();
+        })
+        .catch(error => console.error(`Error toggling card ${id}`, error))
     }
 
     const handleDeleteCard = (id) => {
-        console.log('delete ' + id)
+        axios.delete(`/api/bingo-cards/deleteOne/${id}`)
+        .then(response => {
+            console.log(`deleted card ${id}`)
+            fetchBingoCards();
+        })
+        .catch(error => console.error(`Error deleting card ${id}`, error))
+    }
+
+    const handleDeleteAllCards = () => {
+        axios.delete(`/api/bingo-cards/deleteAll`)
+        .then(response => {
+            console.log(`deleted all cards`)
+            fetchBingoCards();
+        })
+        .catch(error => console.error(`Error deleting all cards`, error))
     }
 
     const handleInputChange = (rowIndex, colIndex, newValue) => {
@@ -150,7 +169,7 @@ const BingoCardComponent = forwardRef((props, ref) => {
                         const cardData = JSON.parse(card.card);
                         //cardData.numbers
                         //cardData.bools
-                        
+
                         //console.log(card);
                         const id = card.id; //card.___ is db names
                         const is_active = card.is_active;

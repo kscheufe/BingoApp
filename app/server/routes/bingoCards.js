@@ -6,6 +6,7 @@ const { updateCardBooleanArrays, checkWinConditions } = require('../gameLogic');
 module.exports = function(db) {
     //get all cards
     router.get('/', (req, res) => {
+        console.log("get received by server: bingoCard");
         db.all('SELECT * FROM bingo_cards', [], (err, rows) => {
             if (err) {
                 return res.status(500).json({ error: err.message});
@@ -18,6 +19,7 @@ module.exports = function(db) {
     //could better take an array of 25 objects, each containing {number:, boolean:}, and activity status
     //though then the binary AND wouldn't work as easily
     router.post('/', (req, res) => {
+        console.log("post received by server: bingoCard");
         const {card, is_active} = req.body;
         db.run("INSERT INTO bingo_cards (card, is_active) VALUES (?, ?)", [card, is_active], function(err) {
             if (err) {
@@ -35,6 +37,7 @@ module.exports = function(db) {
 
     //toggle card
     router.post('/toggle/:id', (req, res) => {
+        console.log("toggle received by server: bingoCard");
         const id = req.params.id;
         db.run("UPDATE bingo_cards SET is_active = NOT is_active WHERE id = ?", [id], function(err) {
             if (err) {
@@ -57,6 +60,7 @@ module.exports = function(db) {
 
     //delete single card
     router.delete('/deleteOne/:id', (req, res) => {
+        console.log("deleteOne received by server: bingoCard");
         const id = req.params.id;
         db.run("DELETE FROM bingo_cards WHERE id = ?", [id], function(err) {
             if (err) {
@@ -71,6 +75,7 @@ module.exports = function(db) {
 
     //delete all cards
     router.delete('/deleteAll', (req, res) => {
+        console.log("delete All received by server: bingoCard");
         db.run("DELETE FROM bingo_cards", [], function(err) {
             if (err) {
                 return res.status(500).json({ error: err.message});

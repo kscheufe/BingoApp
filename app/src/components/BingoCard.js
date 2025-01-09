@@ -177,14 +177,14 @@ const BingoCardComponent = forwardRef((props, ref) => {
                     
                     <li>
                         <div>Card Label</div>
-                        <div className='bingo-card'>
+                        <div className={`bingo-card ${is_active ? 'active' : ''}`}>
                         <button 
-                            className={"toggle-button"}
+                            className={`toggle-button`}
                             onClick={() => handleToggleCard(id)}
                         >
                             {is_active ? "🔓" : "🔒"}
                         </button>
-                        <span className='win-condition-id'>WC {id}</span>
+                        <span className='card-id'>Card {id}</span>
                         <button 
                             className='delete-button'
                             onClick={() => handleDeleteCard(id)}

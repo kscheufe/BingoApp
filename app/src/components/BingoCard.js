@@ -175,20 +175,22 @@ const BingoCardComponent = forwardRef((props, ref) => {
                         const is_active = card.is_active;
                     return (
                     
-                    <li>
+                    <li key={index}>
                         <div>Card Label</div>
-                        <div className={`bingo-card ${is_active ? 'active' : ''}`}>
-                        <button 
-                            className={`toggle-button`}
-                            onClick={() => handleToggleCard(id)}
-                        >
-                            {is_active ? "🔓" : "🔒"}
-                        </button>
-                        <span className='card-id'>Card {id}</span>
-                        <button 
-                            className='delete-button'
-                            onClick={() => handleDeleteCard(id)}
-                        >🗑️</button>
+                        <div className={`bingo-card ${is_active ? 'active' : 'inactive'}`}>
+                        <div className="card-header">
+                            <button 
+                                className={`toggle-button`}
+                                onClick={() => handleToggleCard(id)}
+                            >
+                                {is_active ? "🔓" : "🔒"}
+                            </button>
+                            <span className='card-id'>Card {id}</span>
+                            <button 
+                                className='delete-button'
+                                onClick={() => handleDeleteCard(id)}
+                            >🗑️</button>
+                        </div>
 
                         <div className='bingo-header'>
                             {['B', 'I', 'N', 'G', 'O'].map((letter, index) => (

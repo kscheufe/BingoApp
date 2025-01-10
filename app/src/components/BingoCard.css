@@ -28,6 +28,7 @@
 
 .bingo-header {
     padding: 0;
+    padding-top: 20px;
 }
 
 .card-row {
@@ -46,7 +47,11 @@
 }
 
 .marked {
-    background-color: #add8e6; /* light blue for marked cells */
+    background-color: #c17b1f; /* light blue for marked cells */
+}
+
+.inactive {
+    background-color: #cccccc8d;
 }
 
 .cell-button {

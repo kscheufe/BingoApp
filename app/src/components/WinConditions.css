@@ -5,13 +5,19 @@
     margin-top: 20px;
 }
 
+/* add back in when app.js is styled * /
+.addCancelButton {
+    display: flex;
+    justify-content: flex-end;
+}/**/ 
+
 .card-row, .condition-row {
     display: flex;
 }
 
 .card-cell, .condition-button {
-    width: 40px;        /* Adjust size */
-    height: 40px;       /* Ensure height matches width */
+    width: 40px;       
+    height: 40px;      
     display: flex;
     align-items: center;
     justify-content: center;
@@ -21,11 +27,12 @@
 }
 
 .marked {
-    background-color: rgba(128, 255, 0, 0.685);  /* Color for marked cells */
+    background-color: rgb(128, 255, 0); 
 }
 
+
 .marked:hover {
-    background-color: rgba(81, 162, 0);
+    background-color: rgb(81, 162, 0);
 }
 
 .cell-button {
@@ -47,7 +54,6 @@
     display: flex;
 }
 
-/* New CSS additions */
 .win-conditions-component {
     padding: 20px;
 }
@@ -101,9 +107,3 @@ ul {
     padding: 0; 
     margin: 0; 
 }
-
-/* add back in when app.js is styled * /
-.addCancelButton {
-    display: flex;
-    justify-content: flex-end;
-}/**/ 

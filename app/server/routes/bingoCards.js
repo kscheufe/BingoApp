@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { updateCardBooleanArrays, checkWinConditions } = require('../gameLogic');
 
-
 module.exports = function(db) {
     //get all cards
     router.get('/', (req, res) => {
@@ -16,8 +15,6 @@ module.exports = function(db) {
     });
 
     //add new card (takes 25 numbers (and free), and activity status (on by default))
-    //could better take an array of 25 objects, each containing {number:, boolean:}, and activity status
-    //though then the binary AND wouldn't work as easily
     router.post('/', (req, res) => {
         console.log("post received by server: bingoCard");
         const {card, is_active} = req.body;

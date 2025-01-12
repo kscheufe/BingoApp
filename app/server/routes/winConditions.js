@@ -17,7 +17,7 @@ module.exports = function(db) {
     //add a new win condition
     router.post('/add', (req, res) => {
         let { condition, is_active } = req.body;
-        if (is_active == null) is_active = 1;//default setting true
+        if (is_active == null) is_active = 1;
         console.log("post(add) received by server: winCondition");
 
         db.run('INSERT INTO win_conditions (condition, is_active) VALUES (?, ?)', [condition, is_active], function(err) {
@@ -30,8 +30,6 @@ module.exports = function(db) {
             //only this card will need to be done, but for now check all
             checkWinConditions(db)
             .then(winFound => {
-                //winConditionID = this.lastID; - provided in get
-                //respond to the front-end, only needs winFound as front end will trigger rerender on response
                 res.json({winFound});
             })
             .catch(error => {
@@ -56,10 +54,8 @@ module.exports = function(db) {
             //only this card will need to be done, and only if being set active, but for now check all
             checkWinConditions(db)
             .then(winFound => {
-                //respond to the front-end, returning winFound - which will be the first winning card's id or -1 if no win found
                 res.json({winFound: winFound});
             })
-            //res.json({ message: "win condition toggled successfully", changes: this.changes});
         });
     });
 

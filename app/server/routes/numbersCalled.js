@@ -24,20 +24,17 @@ module.exports = function(db) {
                     return res.status(409).json({
                         error: "Number already exists",
                         num: num
-                        }); //for alert logging (optional)
+                        });
                 }
-                
                 console.log("error in post");
                 return res.status(500).json({ error: err.message});
             }
-            const numberId = this.lastID;//will return id of the num (for deletion buttons to use)
+            const numberId = this.lastID;
             
-            //these functions are/will be implemented in index.js, where this file is exported to
             updateCardBooleanArrays(db)
-                .then(() => checkWinConditions(db))//chain the promises
+                .then(() => checkWinConditions(db))
                 .then(winFound => {
                     console.log(winFound + "win found in numbersCalled.js")
-                    //respond to the front-end, returning the id of the new number (for delete), and winFound - which will be the first winning card's id or -1 if no win found
                     res.json({id: numberId, winFound});
                     //also return the winCondition id for highlighting?
                 })
@@ -56,7 +53,7 @@ module.exports = function(db) {
             if (err) {
                 return res.status(500).json({ error: err.message});
             }
-            if (this.changes === 0) {//should never happen, only way to call will be through button press
+            if (this.changes === 0) {
                 return res.status(404).json({error: "Id not found"});
             }
             //update card boolean arrays - rerender, no new wins found
@@ -73,8 +70,8 @@ module.exports = function(db) {
             if (err) {
                 return res.status(500).json({ error: err.message});
             }
-            if (this.changes === 0) {//should never happen, only way to call will be through button press
-                return res.status(404).json({error: "Id not found"});
+            if (this.changes === 0) {
+                return res.status(404).json({error: "Value not found"});
             }
             //update card boolean arrays - rerender, no new wins found
             updateCardBooleanArrays(db);

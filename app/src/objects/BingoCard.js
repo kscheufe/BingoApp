@@ -1,8 +1,4 @@
-/**
-*   - The constructor setting card numbers to generateCardNumbers will need to be changed to setCardNumbers(input from manual input or AI model)
-    - Could incorporate a check win conditions method here, but might be best elsewhere, leave for now
-*/
-import './BingoCard.css'; // For styling the card
+import './BingoCard.css';
 
 class BingoCard {
     constructor() {
@@ -13,16 +9,12 @@ class BingoCard {
                     [4, 19, 34, 49, 64],
                     [5, 20, 35, 50, 65],
                 ];
-        //this.generateCardNumbers();//change to either manual input or recognition model
-        //boolean array
         this.bools = Array(5).fill(null).map(() => Array(5).fill(false));
         this.bools[2][2] = true;//for the free space
     }
 
     //set cards numbers to passed in array values
     setCardNumbers(inputArray) {
-        //input validation function only necessary in this method
-        //if the input array is valid, set the numbers to the object and adjust the bools appropriately
         if (isValidCard(inputArray))
         {
             this.numbers = inputArray;
@@ -41,7 +33,7 @@ class BingoCard {
         };
     }
 
-    //generate random numbers for a bingoCard with the center tile free
+    //generate default numbers for a bingoCard with the center tile free
     generateCardNumbers() {
         const numbers = Array(5).fill(null).map(() => Array(5).fill(0));
         for (let i = 0; i < 5; i++)
@@ -73,38 +65,29 @@ class BingoCard {
         }
     }
 
-    checkWinCondition() {
-        //for 
-    }
-
-    //could have a method for checking win conditions here, but given how many distinct win conditions there are I think it might be best elsewhere
-
-    /*returns the cards numbers, in format
-    [
-        [1, 3, 6, 4, 15],
-        [16, 22, 29, 28, 19],
-        [30, 31, FREE, 44, 42],
-        ...
-        ...
-    ]
-    */
     getCardNumbers() {
-        //alert(this.numbers);
         return this.numbers;
+        /*returns the cards numbers, in format
+        [
+            [1, 3, 6, 4, 15],
+            [16, 22, 29, 28, 19],
+            [30, 31, FREE, 44, 42],
+            ...
+            ...
+        ]
+        */
     }
 
-    /*returns the cards bools, in format 
-    [
-        [false, false, false, false, false],
-        [false, false, false, false, false],
-        [false, false, true, false, false],
-        [false, false, false, false, false],
-        [false, false, false, false, false],
-    ]
-    for example
-    */
     getCardBools() {
         return this.bools;
+        /*returns the cards bools, in format 
+        [
+            [false, false, false, false, false],
+            [false, false, false, false, false],
+            [false, false, true, false, false],
+            [false, false, false, false, false],
+            [false, false, false, false, false],
+        ]*/
     }
 }
 

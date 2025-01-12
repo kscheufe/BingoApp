@@ -89,6 +89,7 @@ function App() {//starting point for the app
     setActiveComponent(component);
   }
 
+  //maybe make faster by always rendering all 3 components and using html to dynamically hide 2
   const renderActiveComponent = () => {
     switch (activeComponent) {
       case 'bingo':

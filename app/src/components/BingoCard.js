@@ -3,6 +3,9 @@ import BingoCard from '../objects/BingoCard';
 import "./BingoCard.css";
 import axios from 'axios';
 
+//delete all cards button
+//win notifications
+
 const BingoCardComponent = forwardRef((props, ref) => {
     
     const [bingoCard, setBingoCard] = useState(new BingoCard());
@@ -164,33 +167,25 @@ const BingoCardComponent = forwardRef((props, ref) => {
             <ul>
                 {bingoCardList.length > 0 ? (
                     bingoCardList.map((card, index) => {
-                        //card is a placeholder name for row (from DB)
-                        //data must be parsed from text, other two available immediately
                         const cardData = JSON.parse(card.card);
-                        //cardData.numbers
-                        //cardData.bools
-
-                        //console.log(card);
-                        const id = card.id; //card.___ is db names
+                        const id = card.id;
                         const is_active = card.is_active;
                     return (
-                    
-                    <li key={index}>
-                        <div>Card Label</div>
-                        <div className={`bingo-card ${is_active ? 'active' : 'inactive'}`}>
-                        <div className="card-header">
-                            <button 
-                                className={`toggle-button`}
-                                onClick={() => handleToggleCard(id)}
-                            >
-                                {is_active ? "🔓" : "🔒"}
-                            </button>
-                            <span className='card-id'>Card {id}</span>
-                            <button 
-                                className='delete-button'
-                                onClick={() => handleDeleteCard(id)}
-                            >🗑️</button>
-                        </div>
+                        <li key={index}>
+                            <div className={`bingo-card ${is_active ? 'active' : 'inactive'}`}>
+                            <div className="card-header">
+                                <button 
+                                    className={`toggle-button`}
+                                    onClick={() => handleToggleCard(id)}
+                                >
+                                    {is_active ? "🔓" : "🔒"}
+                                </button>
+                                <span className='card-id'>Card {id}</span>
+                                <button 
+                                    className='delete-button'
+                                    onClick={() => handleDeleteCard(id)}
+                                >🗑️</button>
+                            </div>
 
                             <div className='bingo-header'>
                                 {['B', 'I', 'N', 'G', 'O'].map((letter, index) => (
@@ -218,7 +213,7 @@ const BingoCardComponent = forwardRef((props, ref) => {
                         </div>
                     </li>
                     )})
-                ) : ( <p>No Cards Added Yet</p>) }
+                ) : (<p>No Cards Added Yet</p>)}
             </ul>
         </div>
     )

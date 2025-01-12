@@ -4,7 +4,6 @@ const app = express();
 const cors = require('cors');
 const sqlite3 = require("sqlite3").verbose();
 const path = require('path');
-//const {updateCardBooleanArrays, checkWinConditions} = require('../server/gameLogic');
 
 //initializeDb call - db is already initialized
 const initDB = require("./db/initDB");//call init script

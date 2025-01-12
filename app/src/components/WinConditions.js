@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import "./WinConditions.css";
+
 /*
-    Need to add:
+    Future Improvements:
         - styling
-            - Top Header should be persistent, others scrollable
-            - Mess around with "Win Conditions" title and add button?
             - Maybe make the lock button a toggle slider
         - sort WC? by id, activity, whatever
-        - Persistent WC for lines?
-        - It also appears to be getting called many many times, look into that
-            - Tested - Because of React Strict Mode, won't be an issue in prod
+        - Persistent WC for hor/vert lines?
 */
 
 const defaultWinCondition = [
@@ -40,8 +37,6 @@ const WinConditionsComponent = () => {
 
     //also used to cancel editing
     const startEditing = () => {
-        //setCurrentCondition(defaultWinCondition);//init to default
-        //might not want to default to default every time, only for sure after one is submitted
         setIsEditing(!isEditing);//show editing grid
     }
 
@@ -55,7 +50,6 @@ const WinConditionsComponent = () => {
 
     const handleAddCondition = (event) => {
         event.preventDefault();
-        //don't need to prevent empty submission, not possible
         const condition = JSON.stringify(currentCondition);//serialize it for db
 
         axios.post('/api/win-conditions/add', {condition})
@@ -95,8 +89,6 @@ const WinConditionsComponent = () => {
 
 return (
     <div className='win-conditions-component'>
-        {/*<h2>Win Conditions</h2>*/}
-
         {/* Button to start adding a new win condition */}
         <div className='addCancelButton'>
             <button onClick={startEditing}>{isEditing ? "Cancel" : "Add"}</button>
@@ -106,9 +98,7 @@ return (
         </div>
         {/* If editing, show the grid for user to configure the new condition */}
         {isEditing && (
-            
-            <div >
-                
+            <div>
                 <div className='bingo-card'>
                 <h3>Toggle Cells</h3>    
                     {currentCondition.map((row, rowIndex) => (
@@ -135,8 +125,6 @@ return (
         <ul>
             {winConditions.length > 0 ? (
                 winConditions.map((conditionData, index) => {
-                    //conditionData is a placeholder name for row (from DB)
-                    //condition must be parsed from text, other two available immediately
                     const condition = JSON.parse(conditionData.condition);
                     const id = conditionData.id;
                     const is_active = conditionData.is_active;
@@ -157,12 +145,6 @@ return (
                                 >🗑️</button>
                             </div>
                             <div className={`condition-grid ${is_active ? '' : 'inactive'}`}>
-                                {//console.log(condition)
-                                    //id = condition.id;
-                                    //condition = condition.condition
-                                    //status = condition.isActive
-                                    //console.log(JSON.parse(condition.condition))
-                                }
                                 {condition.map((row, rowIndex) => (
                                     <div key={rowIndex} className='condition-row'>
                                         {row.map((value, colIndex) => (
@@ -174,7 +156,6 @@ return (
                                     </div>
                                 ))}
                             </div>
-                            
                         </li>
                     )
                 })

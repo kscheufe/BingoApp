@@ -21,11 +21,6 @@
     margin: 0 1px;
 }
 
-.bingo-card {
-    display: flex;
-    flex-direction: column;    
-}
-
 .bingo-header {
     padding: 0;
     padding-top: 20px;
@@ -46,19 +41,3 @@
     margin: 0 1px;
 }
 
-.marked {
-    background-color: #c17b1f; /* light blue for marked cells */
-}
-
-.inactive {
-    background-color: #cccccc8d;
-}
-
-.cell-button {
-    width: 100%;
-    height: 100%;
-    background: none;
-    border: none;
-    outline: none;
-    cursor: pointer;
-}

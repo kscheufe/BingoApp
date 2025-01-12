@@ -192,30 +192,29 @@ const BingoCardComponent = forwardRef((props, ref) => {
                             >🗑️</button>
                         </div>
 
-                        <div className='bingo-header'>
-                            {['B', 'I', 'N', 'G', 'O'].map((letter, index) => (
-                                <div key={`header-${index}`} className='header-cell'>
-                                    {letter}    
+                            <div className='bingo-header'>
+                                {['B', 'I', 'N', 'G', 'O'].map((letter, index) => (
+                                    <div key={`header-${index}`} className='header-cell'>
+                                        {letter}    
+                                    </div>
+                                ))}
+                            </div>
+
+                            {Array.from({ length: 5 }).map((_, rowIndex) => (
+                                <div key={`row-${rowIndex}`} className="card-row">
+                                    {Array.from({ length: 5 }).map((_, colIndex) => {
+                                        const num = cardData.numbers[rowIndex][colIndex];
+                                        return (
+                                            <div 
+                                                key={`${rowIndex}-${colIndex}`}
+                                                className={`card-cell ${cardData.bools[rowIndex][colIndex] == true ? 'called' : ''}`}
+                                            >
+                                                {num == 0 ? 'Free' : num}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             ))}
-                        </div>
-
-                        {Array.from({ length: 5 }).map((_, rowIndex) => (
-                            <div key={`row-${rowIndex}`} className="card-row">
-                                {Array.from({ length: 5 }).map((_, colIndex) => {
-                                    const num = cardData.numbers[rowIndex][colIndex];
-                                    return (
-                                        <div 
-                                            key={`${rowIndex}-${colIndex}`}
-                                            className={`card-cell ${cardData.bools[rowIndex][colIndex] == true ? 'marked' : ''}`}
-                                        >
-                                            {num == 0 ? 'Free' : num}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        )
-                        )}
                         </div>
                     </li>
                     )})

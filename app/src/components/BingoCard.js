@@ -3,7 +3,6 @@ import BingoCard from '../objects/BingoCard';
 import "./BingoCard.css";
 import axios from 'axios';
 
-//delete all cards button
 //win notifications
 
 const BingoCardComponent = forwardRef((props, ref) => {
@@ -215,6 +214,14 @@ const BingoCardComponent = forwardRef((props, ref) => {
                     )})
                 ) : (<p>No Cards Added Yet</p>)}
             </ul>
+            {/* Delete all cards button */}
+            {bingoCardList.length > 0 ? (
+                <div className='clear-button-container'>
+                    <button onClick={handleDeleteAllCards} className='delete-all-cards-button'>
+                        Clear Cards
+                    </button>
+                </div>
+            ) : (null)}
         </div>
     )
 });

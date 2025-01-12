@@ -143,7 +143,7 @@ const NumbersCalledComponent = forwardRef((props, ref) => {
             {/* Delete all numbers button */}
             {allNumbers.length > 0 ? (
                 <div className='clear-button-container'>
-                    <button onClick={deleteAllNumbers} className='delete-all-button'>
+                    <button onClick={deleteAllNumbers} className='delete-all-numbers-button'>
                         Clear
                     </button>
                 </div>

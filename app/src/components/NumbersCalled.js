@@ -74,6 +74,7 @@ const NumbersCalledComponent = forwardRef((props, ref) => {
         axios.post(`/api/numbers-called/${number}`)
             .then(response => {
                 console.log('Number called: ', response.data);
+                if (response.data.winFound != -1) props.handleWinFound(response.data.winFound);
                 //update list of called numbers
                 props.fetchRecentNumbers();
                 fetchNumbers();

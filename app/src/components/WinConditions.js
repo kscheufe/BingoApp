@@ -18,7 +18,7 @@ const defaultWinCondition = [
     [false, false, false, false, false],
 ];
 
-const WinConditionsComponent = () => {
+const WinConditionsComponent = (props) => {
     const [winConditions, setWinConditions] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [currentCondition, setCurrentCondition] = useState(defaultWinCondition);
@@ -55,6 +55,7 @@ const WinConditionsComponent = () => {
         axios.post('/api/win-conditions/add', {condition})
         .then(response => {
             console.log("Added win condition: ", response.data);
+            if (response.data.winFound != -1) props.handleWinFound(response.data.winFound);
             fetchWinConditions();
             setIsEditing(false);
             setCurrentCondition(defaultWinCondition);//reset condition to default after submission
@@ -73,6 +74,7 @@ const WinConditionsComponent = () => {
         axios.post(`/api/win-conditions/toggle/${id}`)
         .then(response => {
             console.log("WinCondition.js-Toggled win condition, id: ", id)
+            if (response.data.winFound != -1) props.handleWinFound(response.data.winFound);
             fetchWinConditions();
         })
         .catch(error => console.error(`Error toggling win condition, id: ${id}`, error))

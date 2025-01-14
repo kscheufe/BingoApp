@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { updateCardBooleanArrays, checkWinConditions } = require('../gameLogic');
+const { checkWinConditions } = require('../gameLogic');
 
 module.exports = function(db) {
     //get all win conditions

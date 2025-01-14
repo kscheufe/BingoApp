@@ -4,6 +4,9 @@ import "./BingoCard.css";
 import axios from 'axios';
 
 //win notifications
+//toggle view on numbers called?
+//finish styling everything like phone - arecipe
+//carousel tab selection
 
 const BingoCardComponent = forwardRef((props, ref) => {
     

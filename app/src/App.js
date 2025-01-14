@@ -89,21 +89,29 @@ function App() {//starting point for the app
     setActiveComponent(component);
   }
 
+  const handleWinFound = (winFound) => {
+    alert("Win Found in Card " + winFound);
+  }
+
   //maybe make faster by always rendering all 3 components and using html to dynamically hide 2
   const renderActiveComponent = () => {
     switch (activeComponent) {
       case 'bingo':
         return <BingoCardComponent 
           ref={bingoCardsRef}
+          handleWinFound={handleWinFound}
         />
       case 'numbersCalled':
         return <NumbersCalledComponent 
           ref={numbersCalledRef}
           fetchRecentNumbers={fetchRecentNumbers}//pass method as a prop to child
+          handleWinFound={handleWinFound}
           //recentNumbers={recentNumbers}
         />
       case 'winConditions':
-        return <WinConditionsComponent />
+        return <WinConditionsComponent 
+        handleWinFound={handleWinFound}
+        />
       default:
         return null;
     }

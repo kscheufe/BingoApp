@@ -24,7 +24,7 @@ module.exports = function(db) {
             } 
             //only really need to update this one cards bools and check it, but for now do all
             updateCardBooleanArrays(db)
-            .then(checkWinConditions(db))
+            .then(() => checkWinConditions(db))
             .then(winFound => {
                 //return the id of the new card, and the winFound number (the winning card's index or -1)
                 res.json({winFound: winFound}); 
@@ -47,10 +47,10 @@ module.exports = function(db) {
             //only really need to check this card, and only when it's toggled active - future modification
             //can do with something like const id = this.lastID
             updateCardBooleanArrays(db)
-            .then(checkWinConditions(db))
+            .then(() => checkWinConditions(db))
             .then(winFound => {
                 //return the winFound number (the winning card's index or -1)
-                res.json({winFound: winFound});
+                res.json({id: id, winFound});
             });
         })
     })

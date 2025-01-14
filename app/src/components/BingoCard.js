@@ -3,11 +3,6 @@ import BingoCard from '../objects/BingoCard';
 import "./BingoCard.css";
 import axios from 'axios';
 
-//win notifications
-//toggle view on numbers called?
-//finish styling everything like phone - arecipe
-//carousel tab selection
-
 const BingoCardComponent = forwardRef((props, ref) => {
     
     const [bingoCard, setBingoCard] = useState(new BingoCard());
@@ -36,6 +31,7 @@ const BingoCardComponent = forwardRef((props, ref) => {
         .then(response => {
             console.log("toggled card " + id);
             fetchBingoCards();
+            if (response.data.winFound != -1) props.handleWinFound(response.data.winFound);
         })
         .catch(error => console.error(`Error toggling card ${id}`, error))
     }
@@ -114,6 +110,7 @@ const BingoCardComponent = forwardRef((props, ref) => {
                 fetchBingoCards();
                 setBingoCard(new BingoCard());
                 setAdding(false);
+                if (response.data.winFound != -1) props.handleWinFound(response.data.winFound);
             })
             .catch(error => console.error("error adding card - BC component", error))
             console.log("submit filed");

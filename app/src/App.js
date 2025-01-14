@@ -6,6 +6,12 @@ import WinConditionsComponent from './components/WinConditions';
 //import AddWinCondition from './components/AddWinCondition'; needed in a sub-component now
 import axios from 'axios';
 
+
+//toggle view on numbers called?
+//finish styling everything like phone - arecipe
+//carousel tab selection
+
+
 function App() {//starting point for the app
   const [inputValue, setInputValue] = useState('');
   const [activeComponent, setActiveComponent] = useState('bingo');//currently active component

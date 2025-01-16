@@ -132,7 +132,7 @@ function App() {//starting point for the app
     <div className="App">
       <header className="App-header">
         {/* Input for submitting a called number */}
-        <form onSubmit={handleInputFieldSubmit}>
+        <form className="numberEntry" onSubmit={handleInputFieldSubmit}>
             <label>
                 Enter Number:
                 <input type='number' min="1" max ="75" value={inputValue} onChange={handleInputFieldChange} />
@@ -141,16 +141,16 @@ function App() {//starting point for the app
         </form>
 
         {/* Display most recent numbers */}
-        <div className="recent-numbers">
-          <h3>Recent Numbers:</h3>
+        <div className="recent-numbers-label">
+          <div>Recent Numbers:</div>
           {recentNumbers.length > 0 ? (
-            <p>
+            <div className='recent-numbers-data'>
               {recentNumbers.map((number) => (
                 <span key={number.id} className="recent-number">
                   {number.number + " "}
                 </span>
               ))}
-            </p>
+            </div>
           ): (
             <p>No numbers called yet.</p>
           )}
@@ -159,9 +159,9 @@ function App() {//starting point for the app
 
         {/* Scrollable naviagtion for components (will be swipeable in app) */}
         <div className="navigation">
-          <button className= {getButtonClass('numbersCalled')} onClick={() => handleComponentChange('numbersCalled')}>Numbers Called</button>
-          <button className= {getButtonClass('bingo')} onClick={() => handleComponentChange('bingo')}>Bingo Cards</button>
-          <button className= {getButtonClass('winConditions')} onClick={() => handleComponentChange('winConditions')}>Win Conditions</button>
+          <button className= {`navButton ${getButtonClass('numbersCalled')}`} onClick={() => handleComponentChange('numbersCalled')}>Numbers Called</button>
+          <button className= {`navButton ${getButtonClass('bingo')}`} onClick={() => handleComponentChange('bingo')}>Bingo Cards</button>
+          <button className= {`navButton ${getButtonClass('winConditions')}`} onClick={() => handleComponentChange('winConditions')}>Win Conditions</button>
         </div>
       </header>
 

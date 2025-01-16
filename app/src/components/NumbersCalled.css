@@ -1,3 +1,13 @@
+.numbers-called-component {
+    display: flex;
+    justify-content: center;
+}
+
+.bingo-card  {
+    max-width: 240px;
+    color: rgba(255, 255, 255, 0.711);
+}
+
 .delete-button {
     width: 40px;
     height: 40px;
@@ -9,22 +19,12 @@
     padding: 0;
 }
 
-/* add back in when app.js is styled
-.clear-button-container {
-    display: flex;
-    justify-content: flex-end;
-}//*/ 
-
 .bingo-button {
     height: 35px;
     width: 35px;
     padding: 0;
 }
 
-.bingo-card  {
-    max-width: 240px;
-    color: rgba(255, 255, 255, 0.711);
-}
 
 .bingo-button.add, .bingo-button.delete {
     color: rgba(255, 255, 255, 0.711);

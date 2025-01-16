@@ -84,14 +84,25 @@ input:focus {
 }
 
 .App-header {
-  background-color: gray;
+  background-color: #1f1f1f;
 }
 
 .active-component-button {
-  background-color: rgba(128, 255, 0, 0.582);
+  background-color: rgba(16, 208, 32);
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .active-component-button:hover {
-  background-color: rgb(81, 162, 0);
+  background-color: rgb(95, 173, 18);
+}
+.navButton {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.navigation {
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: center;
 }
 
 .App {
@@ -100,7 +111,44 @@ input:focus {
   border-radius: 40px;
   box-shadow: 0 9px 16px rgba(239, 237, 237, 0.121);
   overflow:hidden;
-  position:relative;
+
+  position:absolute;
+  left: 50%;
+  top: 6%;
+  transform: translate(-50%, -3%);
+}
+
+.numberEntry {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  padding-right: 10px;
+}
+
+.recent-numbers-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  width: fit-content;
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.recent-numbers-data {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.recent-number {
+  font-size: 1.2rem;
+  color:white;
 }
 /*
 .App::before {

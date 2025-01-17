@@ -152,7 +152,7 @@ function App() {//starting point for the app
               ))}
             </div>
           ): (
-            <p>No numbers called yet.</p>
+            <span className='recent-number'>_</span>
           )}
 
         </div>

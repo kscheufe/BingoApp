@@ -1,11 +1,20 @@
 .numbers-called-component {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
 }
 
 .bingo-card  {
     max-width: 240px;
     color: rgba(255, 255, 255, 0.711);
+    margin: 0 auto;
+}
+
+.clear-button-container {
+    position: absolute;
+    left: 5px;
+    top: 90%;
 }
 
 .delete-button {
@@ -14,9 +23,7 @@
 }
 
 .delete-all-numbers-button {
-    height: 40px;
-    width: 60px;
-    padding: 0;
+   padding: 10px;
 }
 
 .bingo-button {

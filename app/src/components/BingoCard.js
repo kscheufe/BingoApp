@@ -120,9 +120,15 @@ const BingoCardComponent = forwardRef((props, ref) => {
 
     return (
         <div className="bingoCardContainer">
-            <div className='addCancelButton'>
-                <button onClick={toggleAdding}>{adding ? "Cancel" :"Add"}</button>
-                {adding ? (<button onClick={submitCard}>Submit</button>) : (null) }
+            <div>
+                <button className="BCButtons" onClick={toggleAdding}>{adding ? "Cancel" :"Add"}</button>
+                {adding ? (<button className="BCButtons" onClick={submitCard}>Submit</button>) : (null) }
+                {/* Delete all cards button */}
+                {(bingoCardList.length > 0 && adding==false) ? (
+                    <button className="BCButtons" onClick={handleDeleteAllCards}>
+                        Delete All
+                    </button>
+                ) : (null)}
             </div>
 
             {adding && (
@@ -145,7 +151,7 @@ const BingoCardComponent = forwardRef((props, ref) => {
                                         cursor: 'pointer'
 
                                     }}//change cursor for interactivity
-                                    value = {value || ''}
+                                    value = {value || ""}
                                     //{(rowIndex != 2 || colIndex != 2)}
                                     min={(colIndex * 15 + 1)}
                                     max={(colIndex+1)*15}
@@ -154,6 +160,7 @@ const BingoCardComponent = forwardRef((props, ref) => {
                                         ? null 
                                         : (e) => handleInputChange(rowIndex, colIndex, e.target.value)
                                     }
+                                    onFocus={(event) => event.target.select()}
                                     readOnly={rowIndex === 2 && colIndex === 2}
                                 />
                             ))}
@@ -214,14 +221,6 @@ const BingoCardComponent = forwardRef((props, ref) => {
                     )})
                 ) : (<p>No Cards Added Yet</p>)}
             </ul>
-            {/* Delete all cards button */}
-            {bingoCardList.length > 0 ? (
-                <div className='clear-button-container'>
-                    <button onClick={handleDeleteAllCards} className='delete-all-cards-button'>
-                        Clear Cards
-                    </button>
-                </div>
-            ) : (null)}
         </div>
     )
 });

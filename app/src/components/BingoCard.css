@@ -41,5 +41,14 @@
     margin: 0 1px;
 }
 
-.delete-all-cards-button {}
+.BCButtons {
+    padding: 10px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.number-field {
+    padding: 0px;
+    margin: 1px;
+}
 

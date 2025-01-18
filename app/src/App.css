@@ -78,6 +78,13 @@ input {
   transition: border-color 0.3s ease;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
 input:focus {
   border-color: var(--input-focus-border-color);
   outline: none;

@@ -93,9 +93,9 @@ return (
     <div className='win-conditions-component'>
         {/* Button to start adding a new win condition */}
         <div className='addCancelButton'>
-            <button onClick={startEditing}>{isEditing ? "Cancel" : "Add"}</button>
+            <button className="WCButtons" onClick={startEditing}>{isEditing ? "Cancel" : "Add"}</button>
             {isEditing && (
-                <button onClick={handleAddCondition}>Confirm</button>
+                <button className="WCButtons" onClick={handleAddCondition}>Confirm</button>
             )}
         </div>
         {/* If editing, show the grid for user to configure the new condition */}

@@ -55,7 +55,13 @@
 }
 
 .win-conditions-component {
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 663px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
 }
 
 .win-condition-card, .bingo-card {
@@ -106,4 +112,10 @@ ul {
     list-style-type: none; 
     padding: 0; 
     margin: 0; 
+}
+
+.WCButtons {
+    padding: 10px;
+    margin-left: 25px;
+    margin-right: 25px;
 }

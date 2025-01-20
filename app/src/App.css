@@ -37,6 +37,8 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-y: hidden;
+  /*max-height: 663px;/*100vh for movile devices*/
 }
 
 .header {

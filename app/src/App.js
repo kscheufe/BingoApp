@@ -38,7 +38,6 @@ function App() {//starting point for the app
     const numberToCall = parseInt(inputValue);//ensures it's an int
     axios.post(`/api/numbers-called/${numberToCall}`)
       .then(response => {
-        console.log('Number called: ', response.data);
         //update list of called numbers, DOESN'T EXIST in frontend YET
         fetchRecentNumbers();
         if (numbersCalledRef.current) {
@@ -47,6 +46,7 @@ function App() {//starting point for the app
         if (bingoCardsRef.current) {
           bingoCardsRef.current.refreshCards();//trigger refresh in BingoCardComponent
         }
+        if (response.data.winFound != -1) handleWinFound(response.data.winFound);
         //redraw cards - from old front-end app
         //fetchCards();
 

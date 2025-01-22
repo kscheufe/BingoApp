@@ -119,7 +119,7 @@ const BingoCardComponent = forwardRef((props, ref) => {
     }
 
     return (
-        <div className="bingoCardContainer">
+        <div className='BCPage'>
             <div>
                 <button className="BCButtons" onClick={toggleAdding}>{adding ? "Cancel" :"Add"}</button>
                 {adding ? (<button className="BCButtons" onClick={submitCard}>Submit</button>) : (null) }
@@ -170,7 +170,7 @@ const BingoCardComponent = forwardRef((props, ref) => {
                 </div>
             )}
             
-            <ul>
+            <ul className="bingoCardContainer">
                 {bingoCardList.length > 0 ? (
                     bingoCardList.map((card, index) => {
                         const cardData = JSON.parse(card.card);

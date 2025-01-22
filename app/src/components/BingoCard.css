@@ -1,8 +1,14 @@
+.BCPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 658px;
+}
+
 .bingoCardContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-height: 663px;
     overflow-y: auto;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
@@ -49,6 +55,7 @@
     padding: 10px;
     margin-left: 25px;
     margin-right: 25px;
+    margin-bottom: 4px;
 }
 
 .number-field {

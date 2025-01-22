@@ -54,11 +54,17 @@
     display: flex;
 }
 
+.WCPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 658px;
+}
+
 .win-conditions-component {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-height: 663px;
     overflow-y: auto;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
@@ -75,7 +81,7 @@
     flex-direction: column;
     align-items: center;
     position: relative;
-    width: 280px;
+    width: 240px;
 }
 
 .card-header {
@@ -118,4 +124,5 @@ ul {
     padding: 10px;
     margin-left: 25px;
     margin-right: 25px;
+    margin-bottom: 4px;
 }

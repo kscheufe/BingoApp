@@ -135,7 +135,7 @@ function App() {//starting point for the app
         <form className="numberEntry" onSubmit={handleInputFieldSubmit}>
             <label>
                 Enter Number:
-                <input type='number' min="1" max ="75" value={inputValue} onChange={handleInputFieldChange} />
+                <input className="numberInputField" type='number' min="1" max ="75" value={inputValue} onChange={handleInputFieldChange} />
             </label>
             <button type = "submit">Submit</button>
         </form>

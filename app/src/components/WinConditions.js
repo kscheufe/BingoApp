@@ -90,7 +90,7 @@ const WinConditionsComponent = (props) => {
     }
 
 return (
-    <div className='win-conditions-component'>
+    <div className='WCPage'>
         {/* Button to start adding a new win condition */}
         <div className='addCancelButton'>
             <button className="WCButtons" onClick={startEditing}>{isEditing ? "Cancel" : "Add"}</button>
@@ -124,7 +124,7 @@ return (
 
         {/* List of win conditions 
         <h3>Existing Win Conditions</h3> */}
-        <ul>
+        <ul className='win-conditions-component'>
             {winConditions.length > 0 ? (
                 winConditions.map((conditionData, index) => {
                     const condition = JSON.parse(conditionData.condition);

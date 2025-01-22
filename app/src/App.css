@@ -159,6 +159,10 @@ input:focus {
   font-size: 1.2rem;
   color:white;
 }
+
+.numberInputField {
+  margin-left: 5px;
+}
 /*
 .App::before {
   content: "";

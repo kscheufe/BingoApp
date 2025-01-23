@@ -86,7 +86,6 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-
 input:focus {
   border-color: var(--input-focus-border-color);
   outline: none;
@@ -94,6 +93,7 @@ input:focus {
 
 .App-header {
   background-color: #1f1f1f;
+  height: 155px;
 }
 
 .active-component-button {
@@ -104,14 +104,46 @@ input:focus {
 .active-component-button:hover {
   background-color: rgb(95, 173, 18);
 }
-.navButton {
-  padding-left: 10px;
-  padding-right: 10px;
-}
 .navigation {
+  width: 100%;
+  height: 40px;
   margin-bottom: 4px;
   display: flex;
   justify-content: center;
+}
+
+.navButton {
+  background: transparent;
+  width: 125px;
+  height: 40px;
+  padding-top: 2px;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.navButton:hover {
+  transform: scale(1.05);
+}
+
+.active-component-button /*again*/ {
+  font-weight:bold;
+  border-bottom: 2px solid rgba(16, 208, 32);
+}
+
+.slick {
+  height: 40px;
+}
+.slick-slide {
+  width: 125px;
+}
+
+.slick-list {
+  height: 40px;
+}
+
+.slick-track {
+  height: 40px;
 }
 
 .App {

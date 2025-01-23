@@ -3,20 +3,15 @@ import React, {useEffect, useState, useRef} from 'react';
 import BingoCardComponent from './components/BingoCard';
 import NumbersCalledComponent from './components/NumbersCalled';
 import WinConditionsComponent from './components/WinConditions';
-//import AddWinCondition from './components/AddWinCondition'; needed in a sub-component now
 import axios from 'axios';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
-
-//toggle view on numbers called?
-//finish styling everything like phone - arecipe
-//carousel tab selection
-
-
-function App() {//starting point for the app
+function App() {
   const [inputValue, setInputValue] = useState('');
   const [activeComponent, setActiveComponent] = useState('bingo');//currently active component
   const [recentNumbers, setRecentNumbers] = useState([]);//for the list of three recently called numbers
-  //const [allNumbers, setAllNumbers] = useState([]); //not sure if actually needed in this component
   const numbersCalledRef = useRef(null);
   const bingoCardsRef = useRef(null);
 
@@ -38,7 +33,6 @@ function App() {//starting point for the app
     const numberToCall = parseInt(inputValue);//ensures it's an int
     axios.post(`/api/numbers-called/${numberToCall}`)
       .then(response => {
-        //update list of called numbers, DOESN'T EXIST in frontend YET
         fetchRecentNumbers();
         if (numbersCalledRef.current) {
           numbersCalledRef.current.refreshNumbers();//trigger refresh in NumbersCalledComponent
@@ -47,46 +41,40 @@ function App() {//starting point for the app
           bingoCardsRef.current.refreshCards();//trigger refresh in BingoCardComponent
         }
         if (response.data.winFound != -1) handleWinFound(response.data.winFound);
-        //redraw cards - from old front-end app
-        //fetchCards();
-
       })
       .catch(error => {
         if (error.response && error.response.status == 409) {
           alert(`${error.response.data.num} already called`);
         }
-        //else {
-          console.error("error calling number - app.js: ", error)//}
+        console.error("error calling number - app.js: ", error)
       });
-    //reset the input value
-    setInputValue('');
+    setInputValue(''); //reset the input value
   } 
 
+  //for optional card display in header in future
   const fetchCards = () => {
     axios.get(`/api/bingo-cards`)
     .then(response => {
       console.log("Get bingo cards response: "+ response.data);
       //other methods here, none yet
-      //need to rerender bingo cards in bingoCard component, use props?
     })
     .catch(error => console.error("Error fetching bingo cards - app.js", error));
   };
+
   const fetchRecentNumbers = () => {
     axios.get(`/api/numbers-called/`)
     .then(response => {
       const sortedNumbers = [...response.data].sort((a, b) => b.id - a.id);
       setRecentNumbers(sortedNumbers.slice(0, 3));//sets most recent three numbers
-      //any other methods here - none yet*****
-        //also trigger a rerender of the called numbers in the called numbers tab, will have to use props or some other method to notice the change most likely, unless it can dynamically databind like angular
     })
     .catch(error => console.error("Error fetching called numbers - app.js ", error));
   };
+
+  //for optional WC display in header in future
   const fetchWinConditions = () => {
     axios.get(`/api/win-conditions/`)
     .then(response => {
       console.log("Get win conditions response: " + response.data);
-      //any other methods here - none yet****
-      //rerender winConditions section
     })
   };
 
@@ -112,7 +100,6 @@ function App() {//starting point for the app
           ref={numbersCalledRef}
           fetchRecentNumbers={fetchRecentNumbers}//pass method as a prop to child
           handleWinFound={handleWinFound}
-          //recentNumbers={recentNumbers}
         />
       case 'winConditions':
         return <WinConditionsComponent 
@@ -126,6 +113,24 @@ function App() {//starting point for the app
   const getButtonClass = (component) => {
     return activeComponent === component ? 'active-component-button' : '';
   }
+
+  //settings for nav carousel (react-slick)
+  const sliderSettings = {
+    initialSlide: 1,
+    dots: false,
+    infinite: true,
+    speed: 1000,
+    slidesToShow: 3,
+    centerMode: true,
+    centerPadding: "0px",
+    focusOnSelect: true,
+    cssEase: 'ease-in-out',
+    beforeChange: (oldIndex, newIndex) => {//handles sliding
+      console.log(oldIndex, newIndex)
+      const components = ['numbersCalled', 'bingo', 'winConditions'];
+      setActiveComponent(components[(newIndex)%3]);
+    },
+  };
 
   //add a numbers called component
   return (
@@ -157,19 +162,51 @@ function App() {//starting point for the app
 
         </div>
 
-        {/* Scrollable naviagtion for components (will be swipeable in app) */}
-        <div className="navigation">
-          <button className= {`navButton ${getButtonClass('numbersCalled')}`} onClick={() => handleComponentChange('numbersCalled')}>Numbers Called</button>
-          <button className= {`navButton ${getButtonClass('bingo')}`} onClick={() => handleComponentChange('bingo')}>Bingo Cards</button>
-          <button className= {`navButton ${getButtonClass('winConditions')}`} onClick={() => handleComponentChange('winConditions')}>Win Conditions</button>
-        </div>
+        {/* Scrollable naviagtion carousel */}
+        <Slider {...sliderSettings} className="navigation">
+          <button
+            className={`navButton ${getButtonClass('numbersCalled')}`}
+            onClick={() => handleComponentChange('numbersCalled')}
+          >
+            Numbers <br/> Called
+          </button>
+          <button
+            className={`navButton ${getButtonClass('bingo')}`}
+            onClick={() => handleComponentChange('bingo')}
+          >
+            Bingo <br/> Cards
+          </button>
+          <button
+            className={`navButton ${getButtonClass('winConditions')}`}
+            onClick={() => handleComponentChange('winConditions')}
+          >
+            Win <br/> Conditions
+          </button>
+          <button //Idk why, but adding duplicate slides fixed all of the unresolved react-slick issues
+            className={`navButton ${getButtonClass('numbersCalled')}`}
+            onClick={() => handleComponentChange('numbersCalled')}
+          >
+            Numbers <br/> Called
+          </button>
+          <button
+            className={`navButton ${getButtonClass('bingo')}`}
+            onClick={() => handleComponentChange('bingo')}
+          >
+            Bingo <br/> Cards
+          </button>
+          <button
+            className={`navButton ${getButtonClass('winConditions')}`}
+            onClick={() => handleComponentChange('winConditions')}
+          >
+            Win <br/> Conditions
+          </button>
+        </Slider>
       </header>
 
       {/* Main content area, display selected component */}
       <main>
         {renderActiveComponent()}  
       </main>
-    
     </div>
   );
 }

@@ -108,7 +108,7 @@ return (
                             {row.map((value, colIndex) => (
                                 <button
                                     key={`${rowIndex}-${colIndex}`}
-                                    className={`condition-button ${value ? 'marked' : ''}`}
+                                    className={`condition-button ${value ? 'selected' : ''}`}
                                     onClick={() => handleToggleCell(rowIndex, colIndex)} //toggle on click
                                     style={{cursor: 'pointer'}}//change cursor for interactivity
                                 >

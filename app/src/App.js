@@ -125,10 +125,10 @@ function App() {
     centerPadding: "0px",
     focusOnSelect: true,
     cssEase: 'ease-in-out',
+    swipe: false,
     beforeChange: (oldIndex, newIndex) => {//handles sliding
-      console.log(oldIndex, newIndex)
       const components = ['numbersCalled', 'bingo', 'winConditions'];
-      setActiveComponent(components[(newIndex)%3]);
+      setActiveComponent(components[newIndex%3]);
     },
   };
 

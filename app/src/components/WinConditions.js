@@ -140,7 +140,7 @@ return (
                                 >
                                     {is_active ? "🔓" : "🔒"}
                                 </button>
-                                <span className='win-condition-id'>WC {id}</span>
+                                <span className='win-condition-id'>{is_active ? `WC ${id}` : "Inactive"}</span>
                                 <button 
                                     className='delete-button'
                                     onClick={() => handleDeleteCondition(id)}

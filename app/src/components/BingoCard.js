@@ -186,7 +186,7 @@ const BingoCardComponent = forwardRef((props, ref) => {
                                 >
                                     {is_active ? "🔓" : "🔒"}
                                 </button>
-                                <span className='card-id'>Card {id}</span>
+                                <span className='card-id'>{is_active ?`Card ${id}` : "Inactive"}</span>
                                 <button 
                                     className='delete-button'
                                     onClick={() => handleDeleteCard(id)}
